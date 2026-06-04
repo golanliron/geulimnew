@@ -1,0 +1,830 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ספר מותג | קמפוס גאולים המסילה</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800;900&family=Rubik:wght@500;700;800;900&display=swap");
+
+    :root {
+      --blue: #1f355e;
+      --blue-deep: #111d33;
+      --olive: #8a9746;
+      --olive-dark: #65712d;
+      --sand: #d8c7a0;
+      --cream: #f8f6f1;
+      --white: #ffffff;
+      --ink: #1b2638;
+      --muted: #657082;
+      --line: rgba(31, 53, 94, 0.1);
+      --shadow: 0 22px 60px rgba(17, 29, 51, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--white);
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--white);
+      font-family: "Assistant", "Segoe UI", Arial, sans-serif;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    .brandbook {
+      min-height: 100vh;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 14px clamp(18px, 5vw, 64px);
+      background: rgba(255, 255, 255, 0.92);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar img {
+      width: 150px;
+      display: block;
+    }
+
+    .topbar nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .topbar a {
+      color: var(--blue-deep);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 15px;
+      padding: 8px 11px;
+      border-radius: 6px;
+    }
+
+    .topbar a:hover {
+      background: rgba(216, 199, 160, 0.22);
+    }
+
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(320px, 0.95fr) minmax(360px, 1.05fr);
+      align-items: center;
+      gap: clamp(32px, 7vw, 96px);
+      width: min(1180px, calc(100% - 36px));
+      min-height: calc(100vh - 74px);
+      margin: 0 auto;
+      padding: 58px 0 150px;
+      overflow: hidden;
+    }
+
+    .hero-copy {
+      max-width: 610px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      color: var(--olive-dark);
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 46px;
+      height: 2px;
+      background: var(--olive);
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: "Rubik", "Assistant", "Segoe UI", Arial, sans-serif;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--blue-deep);
+      font-size: clamp(52px, 8vw, 108px);
+      line-height: 0.94;
+      font-weight: 900;
+    }
+
+    .hero-copy p {
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: clamp(20px, 1.7vw, 25px);
+      line-height: 1.55;
+      font-weight: 600;
+    }
+
+    .hero-visual {
+      display: grid;
+      justify-items: center;
+      gap: 20px;
+    }
+
+    .hero-logo {
+      width: min(100%, 520px);
+      filter: drop-shadow(0 18px 26px rgba(17, 29, 51, 0.13));
+    }
+
+    .mini-palette {
+      display: grid;
+      grid-template-columns: repeat(4, 42px);
+      gap: 10px;
+    }
+
+    .mini-palette span,
+    .swatch {
+      display: block;
+      border-radius: 6px;
+      border: 1px solid rgba(17, 29, 51, 0.08);
+    }
+
+    .mini-palette span {
+      width: 42px;
+      height: 42px;
+    }
+
+    .section {
+      width: min(1180px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 82px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-title {
+      display: grid;
+      grid-template-columns: minmax(260px, 0.75fr) minmax(320px, 1.25fr);
+      gap: 36px;
+      align-items: end;
+      margin-bottom: 38px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      color: var(--blue-deep);
+      font-size: clamp(34px, 4.4vw, 62px);
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .section-title p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1.55;
+      font-weight: 600;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid.cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid.cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid.cols-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      box-shadow: 0 16px 38px rgba(17, 29, 51, 0.06);
+      overflow: hidden;
+    }
+
+    .panel-body {
+      padding: 22px;
+    }
+
+    .panel h3 {
+      margin: 0 0 10px;
+      color: var(--blue-deep);
+      font-size: 25px;
+      line-height: 1.15;
+    }
+
+    .panel p,
+    .panel li {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.5;
+      font-weight: 600;
+    }
+
+    .panel p {
+      margin: 0;
+    }
+
+    .logo-demo {
+      display: grid;
+      min-height: 260px;
+      place-items: center;
+      padding: 26px;
+      background: #fff;
+    }
+
+    .logo-demo.dark {
+      background: var(--blue-deep);
+    }
+
+    .logo-demo img {
+      max-height: 220px;
+      object-fit: contain;
+    }
+
+    .color-card {
+      min-height: 240px;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      overflow: hidden;
+    }
+
+    .color-fill {
+      min-height: 142px;
+    }
+
+    .color-meta {
+      padding: 18px;
+      background: #fff;
+    }
+
+    .color-meta strong {
+      display: block;
+      color: var(--blue-deep);
+      font-size: 19px;
+      line-height: 1.2;
+    }
+
+    .color-meta code {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-family: "Segoe UI Mono", Consolas, monospace;
+      font-size: 14px;
+      direction: ltr;
+      text-align: right;
+    }
+
+    .type-sample {
+      padding: 28px;
+      min-height: 230px;
+    }
+
+    .type-sample .big {
+      margin: 0;
+      color: var(--blue-deep);
+      font-family: "Rubik", "Assistant", sans-serif;
+      font-size: clamp(42px, 5vw, 70px);
+      line-height: 0.98;
+      font-weight: 900;
+    }
+
+    .type-sample .body {
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-family: "Assistant", sans-serif;
+      font-size: 22px;
+      line-height: 1.52;
+      font-weight: 600;
+    }
+
+    .icons-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .icon-tile {
+      display: grid;
+      justify-items: center;
+      align-content: center;
+      min-height: 205px;
+      padding: 18px;
+      text-align: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .icon-tile img {
+      width: 112px;
+      height: 112px;
+      object-fit: contain;
+      margin-bottom: 12px;
+    }
+
+    .icon-tile strong {
+      display: block;
+      color: var(--blue-deep);
+      font-size: 19px;
+      line-height: 1.2;
+    }
+
+    .motif-strip {
+      display: grid;
+      gap: 22px;
+    }
+
+    .asset-group {
+      display: grid;
+      gap: 22px;
+      margin-bottom: 38px;
+    }
+
+    .asset-group h3 {
+      margin: 0;
+      color: var(--blue-deep);
+      font-size: 28px;
+    }
+
+    .transparent-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .transparent-tile {
+      min-height: 190px;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background:
+        linear-gradient(45deg, #f3f3f3 25%, transparent 25%),
+        linear-gradient(-45deg, #f3f3f3 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #f3f3f3 75%),
+        linear-gradient(-45deg, transparent 75%, #f3f3f3 75%),
+        #ffffff;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+      background-size: 20px 20px;
+    }
+
+    .transparent-preview {
+      display: grid;
+      min-height: 140px;
+      place-items: center;
+      padding: 18px;
+    }
+
+    .transparent-preview img {
+      max-width: 100%;
+      max-height: 122px;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 15px rgba(17, 29, 51, 0.06));
+    }
+
+    .transparent-tile code {
+      display: block;
+      padding: 11px 12px;
+      color: var(--blue-deep);
+      background: rgba(255, 255, 255, 0.92);
+      border-top: 1px solid var(--line);
+      font-family: "Segoe UI Mono", Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.35;
+      direction: ltr;
+      text-align: left;
+      overflow-wrap: anywhere;
+    }
+
+    .motif-preview {
+      min-height: 180px;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .rail-preview {
+      width: 100%;
+      height: 115px;
+    }
+
+    .dot-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 8px);
+      grid-auto-rows: 8px;
+      gap: 15px;
+    }
+
+    .dot-grid span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--sand);
+    }
+
+    .skyline-preview img {
+      width: 100%;
+      height: 110px;
+      object-fit: contain;
+      object-position: center bottom;
+    }
+
+    .composition {
+      position: relative;
+      min-height: 540px;
+      padding: 36px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .composition-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .composition-header img {
+      width: 180px;
+    }
+
+    .composition-mark {
+      color: var(--olive-dark);
+      font-weight: 900;
+    }
+
+    .composition-main {
+      max-width: 560px;
+      margin-top: 68px;
+    }
+
+    .composition-main h3 {
+      margin: 0;
+      color: var(--blue-deep);
+      font-size: clamp(38px, 5vw, 68px);
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .composition-main p {
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: 21px;
+      line-height: 1.55;
+      font-weight: 600;
+    }
+
+    .composition-icons {
+      display: flex;
+      gap: 16px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+
+    .composition-icons img {
+      width: 82px;
+      height: 82px;
+      object-fit: contain;
+    }
+
+    .composition .skyline {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 96px;
+    }
+
+    .composition .skyline img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center bottom;
+    }
+
+    .board-image {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .footer {
+      padding: 40px clamp(18px, 5vw, 64px);
+      color: #fff;
+      background: var(--blue-deep);
+      text-align: center;
+      font-weight: 800;
+    }
+
+    @media (max-width: 900px) {
+      .topbar {
+        position: static;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero,
+      .section-title,
+      .grid.cols-2,
+      .grid.cols-3,
+      .grid.cols-4 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 42px;
+      }
+
+      .icons-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .transparent-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .icons-grid,
+      .transparent-grid,
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .composition {
+        padding: 22px;
+      }
+
+      .composition-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="brandbook">
+    <header class="topbar">
+      <a href="index.html" aria-label="חזרה למצגת הדוגמה">
+        <img src="assets/gaolim-logo-no-circle.png" alt="קמפוס גאולים המסילה">
+      </a>
+      <nav aria-label="ניווט בספר המותג">
+        <a href="#colors">צבעים</a>
+        <a href="#type">טיפוגרפיה</a>
+        <a href="#logos">לוגו</a>
+        <a href="#icons">אייקונים</a>
+        <a href="#elements">נכסים שקופים</a>
+        <a href="#motifs">מוטיבים</a>
+        <a href="#slides">שקפים</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">ספר מותג חי</p>
+        <h1>קמפוס גאולים המסילה</h1>
+        <p>
+          עמוד HTML שמרכז את שפת המותג: צבעים, טיפוגרפיה, לוגו, אייקונים, מוטיבים ודוגמאות קומפוזיציה למצגת האינטראקטיבית.
+        </p>
+      </div>
+      <div class="hero-visual">
+        <img class="hero-logo" src="assets/gaolim-logo-no-circle.png" alt="לוגו קמפוס גאולים המסילה">
+        <div class="mini-palette" aria-label="פלטת צבעים">
+          <span style="background:#1f355e"></span>
+          <span style="background:#8a9746"></span>
+          <span style="background:#d8c7a0"></span>
+          <span style="background:#f8f6f1"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="colors">
+      <div class="section-title">
+        <h2>פלטת צבעים</h2>
+        <p>הצבעים משמרים תחושה ירושלמית, חינוכית ובוגרת: כחול עמוק לידע, ירוק לצמיחה, חול לאבן ירושלמית ושמנת למרחב נקי.</p>
+      </div>
+      <div class="grid cols-4">
+        <article class="panel color-card">
+          <div class="color-fill" style="background:#1f355e"></div>
+          <div class="color-meta"><strong>כחול גאולים</strong><code>#1F355E</code></div>
+        </article>
+        <article class="panel color-card">
+          <div class="color-fill" style="background:#8a9746"></div>
+          <div class="color-meta"><strong>ירוק מסילה</strong><code>#8A9746</code></div>
+        </article>
+        <article class="panel color-card">
+          <div class="color-fill" style="background:#d8c7a0"></div>
+          <div class="color-meta"><strong>חול בקעה</strong><code>#D8C7A0</code></div>
+        </article>
+        <article class="panel color-card">
+          <div class="color-fill" style="background:#f8f6f1"></div>
+          <div class="color-meta"><strong>שמנת פתוחה</strong><code>#F8F6F1</code></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="type">
+      <div class="section-title">
+        <h2>טיפוגרפיה</h2>
+        <p>הכותרות ב-Rubik נותנות נוכחות מודרנית ומוסדית. הטקסט השוטף ב-Assistant נשאר קריא, נקי ונוח למצגת בעברית.</p>
+      </div>
+      <div class="grid cols-2">
+        <article class="panel type-sample">
+          <p class="big">למידה שיוצאת מגבולות הכיתה</p>
+          <p class="body">כותרות גדולות, קצרות ובטוחות. לא להעמיס מילים בכותרת.</p>
+        </article>
+        <article class="panel type-sample">
+          <p class="big" style="font-size:46px">השכונה ככיתה</p>
+          <p class="body">טקסטי גוף צריכים להסביר רעיון אחד בכל פעם, בשפה רשמית אך נגישה.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="logos">
+      <div class="section-title">
+        <h2>לוגו</h2>
+        <p>הלוגו משמש כעוגן זהות. בשקפי תוכן להשתמש בלוגו קטן למעלה; בשערים ובסיום אפשר להשתמש בו גדול יותר.</p>
+      </div>
+      <div class="grid cols-3">
+        <article class="panel">
+          <div class="logo-demo"><img src="assets/gaolim-logo-no-circle.png" alt="לוגו ללא עיגול רקע"></div>
+          <div class="panel-body"><h3>שימוש למצגת</h3><p>גרסה נקייה, טובה לכותרות ולשקפים לבנים.</p></div>
+        </article>
+        <article class="panel">
+          <div class="logo-demo"><img src="assets/gaolim-logo-official-transparent.png" alt="לוגו שקוף מקורי"></div>
+          <div class="panel-body"><h3>מקור שקוף</h3><p>הגרסה שסופקה, נשמרת כנכס מקור.</p></div>
+        </article>
+        <article class="panel">
+          <div class="logo-demo dark"><img src="assets/gaolim-logo-no-circle.png" alt="לוגו על כחול כהה"></div>
+          <div class="panel-body"><h3>על רקע כהה</h3><p>להשתמש רק כשיש מספיק ניגודיות ושטח נשימה.</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="icons">
+      <div class="section-title">
+        <h2>אייקונים</h2>
+        <p>כל אייקון נשמר בנפרד, כדי שנוכל לבנות שקפים מודולריים בלי לחתוך מחדש מתוך תמונת המקור.</p>
+      </div>
+      <div class="icons-grid">
+        <div class="icon-tile"><img src="assets/icons/place-based-learning.png" alt=""><strong>למידה מבוססת מקום</strong></div>
+        <div class="icon-tile"><img src="assets/icons/research-discovery.png" alt=""><strong>חקר וגילוי</strong></div>
+        <div class="icon-tile"><img src="assets/icons/community.png" alt=""><strong>קהילה</strong></div>
+        <div class="icon-tile"><img src="assets/icons/initiative.png" alt=""><strong>יוזמות</strong></div>
+        <div class="icon-tile"><img src="assets/icons/leadership.png" alt=""><strong>מנהיגות</strong></div>
+        <div class="icon-tile"><img src="assets/icons/sustainability.png" alt=""><strong>קיימות</strong></div>
+        <div class="icon-tile"><img src="assets/icons/neighborhood.png" alt=""><strong>שכונה</strong></div>
+        <div class="icon-tile"><img src="assets/icons/personal-growth.png" alt=""><strong>צמיחה אישית</strong></div>
+      </div>
+    </section>
+
+    <section class="section" id="elements">
+      <div class="section-title">
+        <h2>נכסים שקופים</h2>
+        <p>כל אייקון וכל מוטיב תנועה נשמרים כקבצים נפרדים על רקע שקוף. המשבצות מאחור הן רק בדיקת שקיפות.</p>
+      </div>
+
+      <div class="asset-group">
+        <h3>אייקונים נקיים, בלי עיגול רקע</h3>
+        <div class="transparent-grid">
+          <div class="transparent-tile"><div class="transparent-preview"><img src="assets/brand-elements/icons-clean/place-based-learning.png" alt="למידה מבוססת מקום"></div><code>icons-clean/place-based-learning.png</code></div>
+          <div class="transparent-tile"><div class="transparent-preview"><img src="assets/brand-elements/icons-clean/research-discovery.png" alt="חקר וגילוי"></div><code>icons-clean/research-discovery.png</code></div>
+          <div class="transparent-tile"><div class="transparent-preview"><img src="assets/brand-elements/icons-clean/community.png" alt="קהילה"></div><code>icons-clean/community.png</code></div>
+          <div class="transparent-tile"><div class="transparent-preview"><img src="assets/brand-elements/icons-clean/initiative.png" alt="יוזמות"></div><code>icons-clean/initiative.png</code></div>
+          <div class="transparent-tile"><div class="transparent-preview"><img src="assets/brand-elements/icons-clean/leadership.png" alt="מנהיגות"></div><code>icons-clean/leadership.png</code></div>
+          <div class="transparent-tile"><div class="transparent-preview"><img src="assets/brand-elements/icons-clean/sustainability.png" alt="קיימות"></div><code>icons-clean/sustainability.png</code></div>
+          <div class="transparent-tile"><div class="transparent-preview"><img src="assets/brand-elements/icons-clean/neighborhood.png" alt="שכונה"></div><code>icons-clean/neighborhood.png</code></div>
+          <div class="transparent-tile"><div class="transparent-preview"><img src="assets/brand-elements/icons-clean/personal-growth.png" alt="צמיחה אישית"></div><code>icons-clean/personal-growth.png</code></div>
+        </div>
+      </div>
+
+      <div class="asset-group">
+        <h3>אייקונים עם עיגול המותג</h3>
+        <div class="transparent-grid">
+          <div class="transparent-tile"><div class="transparent-preview"><img src="assets/brand-elements/icons-badge/place-based-learning.png" alt="למידה מבוססת מקום"></div><code>icons-badge/place-based-learning.png</code></div>
+          <div class="transparent-tile"><div class="transparent-preview"><img src="assets/brand-elements/icons-badge/research-discovery.png" alt="חקר וגילוי"></div><code>icons-badge/research-discovery.png</code></div>
+          <div class="transparent-tile"><div class="transparent-preview"><img src="assets/brand-elements/icons-badge/community.png" alt="קהילה"></div><code>icons-badge/community.png</code></div>
+          <div class="transparent-tile"><div class="transparent-preview"><img src="assets/brand-elements/icons-badge/initiative.png" alt="יוזמות"></div><code>icons-badge/initiative.png</code></div>
+          <div class="transparent-tile"><div class="transparent-preview"><img src="assets/brand-elements/icons-badge/leadership.png" alt="מנהיגות"></div><code>icons-badge/leadership.png</code></div>
+          <div class="transparent-tile"><div class="transparent-preview"><img src="assets/brand-elements/icons-badge/sustainability.png" alt="קיימות"></div><code>icons-badge/sustainability.png</code></div>
+          <div class="transparent-tile"><div class="transparent-preview"><img src="assets/brand-elements/icons-badge/neighborhood.png" alt="שכונה"></div><code>icons-badge/neighborhood.png</code></div>
+          <div class="transparent-tile"><div class="transparent-preview"><img src="assets/brand-elements/icons-badge/personal-growth.png" alt="צמיחה אישית"></div><code>icons-badge/personal-growth.png</code></div>
+        </div>
+      </div>
+
+      <div class="asset-group">
+        <h3>מוטיבי תנועה ושפה</h3>
+        <div class="transparent-grid">
+          <div class="transparent-tile"><div class="transparent-preview"><img src="assets/brand-elements/motifs/rail-motion.svg" alt="קו מסילה"></div><code>motifs/rail-motion.svg</code></div>
+          <div class="transparent-tile"><div class="transparent-preview"><img src="assets/brand-elements/motifs/route-line.svg" alt="קו תנועה"></div><code>motifs/route-line.svg</code></div>
+          <div class="transparent-tile"><div class="transparent-preview"><img src="assets/brand-elements/motifs/dots-grid.svg" alt="גריד נקודות"></div><code>motifs/dots-grid.svg</code></div>
+          <div class="transparent-tile"><div class="transparent-preview"><img src="assets/brand-elements/motifs/skyline-official-transparent.png" alt="איור חוץ"></div><code>motifs/skyline-official-transparent.png</code></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="motifs">
+      <div class="section-title">
+        <h2>מוטיבים</h2>
+        <p>אלה רכיבי השפה שאפשר לשלב לסירוגין בשקפים: קו מסילה, נקודות חול, ואיור החוץ של השכונה.</p>
+      </div>
+      <div class="motif-strip">
+        <div class="motif-preview">
+          <svg class="rail-preview" viewBox="0 0 920 115" preserveAspectRatio="none" aria-label="קו מסילה">
+            <path d="M0 74 C130 38 240 102 360 70 C500 34 610 96 728 65 C820 41 870 47 920 34" fill="none" stroke="rgba(31,53,94,.18)" stroke-width="8" stroke-linecap="round"></path>
+            <path d="M0 74 C130 38 240 102 360 70 C500 34 610 96 728 65 C820 41 870 47 920 34" fill="none" stroke="#111d33" stroke-width="3.5" stroke-linecap="round"></path>
+            <circle cx="300" cy="78" r="11" fill="#8a9746"></circle>
+            <circle cx="665" cy="69" r="9" fill="#1f355e"></circle>
+            <circle cx="835" cy="45" r="8" fill="#d8c7a0"></circle>
+          </svg>
+        </div>
+        <div class="motif-preview">
+          <div class="dot-grid" aria-label="גריד נקודות">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="motif-preview skyline-preview">
+          <img src="assets/gaolim-skyline-official-transparent.png" alt="איור החוץ של גאולים המסילה">
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="slides">
+      <div class="section-title">
+        <h2>דוגמת שקף</h2>
+        <p>קומפוזיציה מומלצת: לוגו קטן למעלה, טקסט מרכזי ברור, אייקונים במידה, ומוטיב תחתון רק כשצריך חתימת מותג.</p>
+      </div>
+      <div class="composition">
+        <div class="composition-header">
+          <img src="assets/gaolim-logo-no-circle.png" alt="לוגו קמפוס גאולים המסילה">
+          <div class="composition-mark">שקף תוכן</div>
+        </div>
+        <div class="composition-main">
+          <h3>השכונה הופכת למרחב למידה.</h3>
+          <p>שקף לדוגמה שמראה איך לשלב טקסט, לוגו, אייקונים ואיור חוץ בלי להעמיס על המסר.</p>
+          <div class="composition-icons">
+            <img src="assets/icons/neighborhood.png" alt="">
+            <img src="assets/icons/research-discovery.png" alt="">
+            <img src="assets/icons/community.png" alt="">
+          </div>
+        </div>
+        <div class="skyline" aria-hidden="true">
+          <img src="assets/gaolim-skyline-official-transparent.png" alt="">
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="boards">
+      <div class="section-title">
+        <h2>לוחות מקור</h2>
+        <p>לוחות המיתוג המקוריים נשמרים כאן כרפרנס ויזואלי מלא להמשך התאמות.</p>
+      </div>
+      <div class="grid cols-2">
+        <article class="panel"><img class="board-image" src="assets/brand-board-system.png" alt="לוח שפת מותג"></article>
+        <article class="panel"><img class="board-image" src="assets/brand-board-applications.png" alt="לוח יישומי מותג"></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    קמפוס גאולים המסילה | למידה שיוצאת מגבולות הכיתה
+  </footer>
+</body>
+</html>

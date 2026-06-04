@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "place-based-learning",
+    "title_he": "????? ?????? ????",
+    "badge_file": "assets/brand-elements/icons-badge/place-based-learning.png",
+    "clean_file": "assets/brand-elements/icons-clean/place-based-learning.png"
+  },
+  {
+    "slug": "research-discovery",
+    "title_he": "??? ??????",
+    "badge_file": "assets/brand-elements/icons-badge/research-discovery.png",
+    "clean_file": "assets/brand-elements/icons-clean/research-discovery.png"
+  },
+  {
+    "slug": "community",
+    "title_he": "?????",
+    "badge_file": "assets/brand-elements/icons-badge/community.png",
+    "clean_file": "assets/brand-elements/icons-clean/community.png"
+  },
+  {
+    "slug": "initiative",
+    "title_he": "??????",
+    "badge_file": "assets/brand-elements/icons-badge/initiative.png",
+    "clean_file": "assets/brand-elements/icons-clean/initiative.png"
+  },
+  {
+    "slug": "leadership",
+    "title_he": "???????",
+    "badge_file": "assets/brand-elements/icons-badge/leadership.png",
+    "clean_file": "assets/brand-elements/icons-clean/leadership.png"
+  },
+  {
+    "slug": "sustainability",
+    "title_he": "??????",
+    "badge_file": "assets/brand-elements/icons-badge/sustainability.png",
+    "clean_file": "assets/brand-elements/icons-clean/sustainability.png"
+  },
+  {
+    "slug": "neighborhood",
+    "title_he": "?????",
+    "badge_file": "assets/brand-elements/icons-badge/neighborhood.png",
+    "clean_file": "assets/brand-elements/icons-clean/neighborhood.png"
+  },
+  {
+    "slug": "personal-growth",
+    "title_he": "????? ?????",
+    "badge_file": "assets/brand-elements/icons-badge/personal-growth.png",
+    "clean_file": "assets/brand-elements/icons-clean/personal-growth.png"
+  }
+]

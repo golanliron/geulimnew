@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "place-based-learning",
+    "title_he": "למידה מבוססת מקום",
+    "usage_he": "שקפי חזון, PBE והשכונה ככיתה",
+    "file": "assets/icons/place-based-learning.png"
+  },
+  {
+    "slug": "research-discovery",
+    "title_he": "חקר וגילוי",
+    "usage_he": "שקפי מחקר, מדעים וחקר שטח",
+    "file": "assets/icons/research-discovery.png"
+  },
+  {
+    "slug": "community",
+    "title_he": "קהילה",
+    "usage_he": "שקפי קהילה כשותפה, הורים ושכונה",
+    "file": "assets/icons/community.png"
+  },
+  {
+    "slug": "initiative",
+    "title_he": "יוזמות",
+    "usage_he": "שקפי פיילוט, רעיונות ויום מסילה",
+    "file": "assets/icons/initiative.png"
+  },
+  {
+    "slug": "leadership",
+    "title_he": "מנהיגות",
+    "usage_he": "שקפי מסוגלות, אחריות והשפעה",
+    "file": "assets/icons/leadership.png"
+  },
+  {
+    "slug": "sustainability",
+    "title_he": "קיימות",
+    "usage_he": "שקפי טבע עירוני, סביבה ופארק המסילה",
+    "file": "assets/icons/sustainability.png"
+  },
+  {
+    "slug": "neighborhood",
+    "title_he": "שכונה",
+    "usage_he": "שקפי בקעה, מקום וחיבור למרחב",
+    "file": "assets/icons/neighborhood.png"
+  },
+  {
+    "slug": "personal-growth",
+    "title_he": "צמיחה אישית",
+    "usage_he": "שקפי רווח לילדים, מסע אישי והתפתחות",
+    "file": "assets/icons/personal-growth.png"
+  }
+]
