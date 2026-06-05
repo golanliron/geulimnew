@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>קמפוס גאולים המסילה</title>
+  <title>קמפוס גאולים המסילה | מצגת אינטראקטיבית</title>
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800;900&family=Rubik:wght@500;700;800;900&display=swap");
 
@@ -13,10 +13,12 @@
       --olive: #8a9746;
       --olive-dark: #65712d;
       --sand: #d8c7a0;
-      --cream: #ffffff;
-      --paper: #fffdf8;
-      --ink-soft: #5b6370;
-      --shadow: 0 24px 70px rgba(17, 29, 51, 0.14);
+      --cream: #f8f6f1;
+      --white: #ffffff;
+      --ink: #1b2638;
+      --muted: #687386;
+      --line: rgba(31, 53, 94, 0.1);
+      --shadow: 0 14px 34px rgba(17, 29, 51, 0.07);
     }
 
     * {
@@ -24,18 +26,17 @@
     }
 
     html {
-      min-height: 100%;
-      background: var(--cream);
-      scroll-behavior: smooth;
+      height: 100%;
+      background: var(--white);
     }
 
     body {
-      min-height: 100vh;
+      min-height: 100%;
       margin: 0;
-      color: var(--blue-deep);
+      color: var(--ink);
+      background: var(--white);
       font-family: "Assistant", "Segoe UI", Arial, sans-serif;
-      background: #ffffff;
-      overflow-x: hidden;
+      overflow: hidden;
     }
 
     button,
@@ -43,818 +44,1426 @@
       font: inherit;
     }
 
-    .page {
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .deck {
       position: relative;
-      display: grid;
-      min-height: 100vh;
-      padding: 38px clamp(18px, 5vw, 72px) 34px;
+      min-height: 100svh;
       isolation: isolate;
     }
 
-    .page::before {
-      content: "";
-      position: absolute;
-      inset: 24px;
-      z-index: -2;
+    .deck-frame {
+      position: fixed;
+      inset: 18px;
+      z-index: 0;
       border: 1px solid rgba(31, 53, 94, 0.08);
       border-radius: 6px;
       pointer-events: none;
     }
 
-    .brandbook-link {
-      position: fixed;
-      top: 18px;
-      left: 18px;
-      z-index: 20;
-      display: inline-flex;
-      align-items: center;
-      min-height: 40px;
-      padding: 0 14px;
-      border: 1px solid rgba(31, 53, 94, 0.12);
-      border-radius: 6px;
-      color: var(--blue-deep);
-      background: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 12px 28px rgba(17, 29, 51, 0.08);
-      text-decoration: none;
-      font-weight: 800;
-      backdrop-filter: blur(10px);
-    }
-
-    .brandbook-link:hover {
-      border-color: rgba(138, 151, 70, 0.45);
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(310px, 0.92fr) minmax(360px, 1.08fr);
-      align-items: center;
-      gap: clamp(28px, 6vw, 82px);
-      width: min(1180px, 100%);
-      margin: auto;
-      padding: clamp(18px, 3.8vw, 48px) 0 86px;
-    }
-
-    .brand-stage {
-      position: relative;
-      display: grid;
-      place-items: center;
-      min-height: 390px;
-      animation: rise-in 900ms cubic-bezier(.2,.75,.2,1) both;
-    }
-
-    .logo-panel {
-      position: relative;
-      width: min(100%, 620px);
-      padding: 0;
-      border-radius: 0;
-      background: transparent;
-      box-shadow: none;
-      backdrop-filter: none;
-    }
-
-    .logo-panel img {
-      display: block;
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-      filter: drop-shadow(0 22px 28px rgba(17, 29, 51, 0.13));
-    }
-
-    .intro {
-      max-width: 620px;
-      animation: fade-up 780ms 160ms cubic-bezier(.2,.75,.2,1) both;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      margin: 0 0 18px;
-      color: var(--olive-dark);
-      font-size: clamp(15px, 1.4vw, 18px);
-      font-weight: 800;
-    }
-
-    .eyebrow::before {
-      content: "";
-      display: inline-block;
-      width: 44px;
-      height: 2px;
-      background: var(--olive);
-    }
-
-    h1 {
-      margin: 0;
-      color: var(--blue-deep);
-      font-family: "Rubik", "Assistant", "Segoe UI", Arial, sans-serif;
-      font-size: clamp(46px, 8.2vw, 104px);
-      line-height: 0.94;
-      letter-spacing: 0;
-      font-weight: 900;
-    }
-
-    .tagline {
-      margin: 18px 0 0;
-      color: var(--olive-dark);
-      font-family: "Rubik", "Assistant", "Segoe UI", Arial, sans-serif;
-      font-size: clamp(26px, 3.4vw, 48px);
-      line-height: 1.08;
-      font-weight: 800;
-    }
-
-    .subtitle {
-      max-width: 560px;
-      margin: 22px 0 0;
-      color: var(--ink-soft);
-      font-size: clamp(18px, 1.65vw, 24px);
-      line-height: 1.55;
-      font-weight: 500;
-    }
-
-    .actions {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-top: 34px;
-    }
-
-    .journey-button {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      min-height: 54px;
-      padding: 0 26px;
-      border: 0;
-      border-radius: 6px;
-      color: #ffffff;
-      background: var(--blue);
-      box-shadow: 0 18px 34px rgba(31, 53, 94, 0.22);
-      cursor: pointer;
-      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
-    }
-
-    .journey-button:hover {
-      background: var(--blue-deep);
-      box-shadow: 0 22px 42px rgba(31, 53, 94, 0.28);
-      transform: translateY(-2px);
-    }
-
-    .journey-button:active {
-      transform: translateY(0);
-    }
-
-    .journey-button .arrow {
-      font-size: 21px;
-      line-height: 1;
-      transform: translateX(0);
-      transition: transform 180ms ease;
-    }
-
-    .journey-button:hover .arrow,
-    .journey-button.is-active .arrow {
-      transform: translateX(-5px);
-    }
-
-    .slide-nav-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      min-height: 48px;
-      margin-top: 28px;
-      padding: 0 22px;
-      border: 1px solid rgba(31, 53, 94, 0.16);
-      border-radius: 6px;
-      color: var(--blue-deep);
-      background: #ffffff;
-      box-shadow: 0 14px 30px rgba(17, 29, 51, 0.08);
-      cursor: pointer;
-      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
-    }
-
-    .slide-nav-button:hover {
-      border-color: rgba(138, 151, 70, 0.48);
-      box-shadow: 0 18px 38px rgba(17, 29, 51, 0.12);
-      transform: translateY(-2px);
-    }
-
-    .hint {
-      color: rgba(17, 29, 51, 0.58);
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .rail {
+    .slide {
       position: absolute;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      height: 175px;
-      z-index: -1;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    .rail svg {
-      position: absolute;
-      right: -4%;
-      bottom: 0;
-      width: 108%;
-      min-width: 920px;
-      height: 175px;
-    }
-
-    .rail .track-base {
-      fill: none;
-      stroke: rgba(31, 53, 94, 0.18);
-      stroke-width: 8;
-      stroke-linecap: round;
-    }
-
-    .rail .track-line {
-      fill: none;
-      stroke: var(--blue-deep);
-      stroke-width: 3.2;
-      stroke-linecap: round;
-      stroke-dasharray: 1180;
-      stroke-dashoffset: 1180;
-      animation: draw-track 2s 420ms ease forwards;
-    }
-
-    .rail .land {
-      fill: rgba(216, 199, 160, 0.38);
-    }
-
-    .dot {
-      opacity: 0;
-      animation: pop-dot 500ms ease forwards;
-    }
-
-    .dot.one { animation-delay: 1.2s; }
-    .dot.two { animation-delay: 1.42s; }
-    .dot.three { animation-delay: 1.64s; }
-
-    .status-card {
-      position: fixed;
-      right: 50%;
-      bottom: 26px;
-      width: min(520px, calc(100% - 36px));
-      padding: 16px 20px;
-      color: var(--blue-deep);
-      background: rgba(255, 253, 248, 0.92);
-      border: 1px solid rgba(138, 151, 70, 0.24);
-      border-radius: 8px;
-      box-shadow: 0 18px 50px rgba(17, 29, 51, 0.13);
-      opacity: 0;
-      transform: translate(50%, 22px);
-      pointer-events: none;
-      transition: opacity 240ms ease, transform 240ms ease;
-    }
-
-    .status-card.show {
-      opacity: 1;
-      transform: translate(50%, 0);
-    }
-
-    .status-card strong {
-      display: block;
-      margin-bottom: 4px;
-      color: var(--olive-dark);
-      font-size: 15px;
-    }
-
-    .status-card span {
-      display: block;
-      font-size: 14px;
-      line-height: 1.45;
-    }
-
-    .content-slide {
-      position: relative;
-      min-height: 100vh;
-      padding: 36px clamp(18px, 5vw, 72px) 34px;
-      background: #ffffff;
-      isolation: isolate;
-      overflow: hidden;
-    }
-
-    .content-slide::before {
-      content: "";
-      position: absolute;
-      inset: 24px;
-      z-index: -2;
-      border: 1px solid rgba(31, 53, 94, 0.08);
-      border-radius: 6px;
-      pointer-events: none;
-    }
-
-    .slide-shell {
-      position: relative;
+      inset: 0;
       display: grid;
       grid-template-rows: auto 1fr;
-      min-height: calc(100vh - 70px);
+      gap: 10px;
+      min-height: 100svh;
+      padding: 24px clamp(24px, 5vw, 72px) 24px;
+      background: var(--white);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 260ms ease, visibility 260ms ease;
+      overflow: hidden;
+    }
+
+    .slide.is-active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .slide:not(.cover):not(.closing)::before {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      left: clamp(40px, 8vw, 140px);
+      bottom: clamp(32px, 6vh, 84px);
+      width: clamp(260px, 34vw, 520px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: rgba(216, 199, 160, 0.12);
+      pointer-events: none;
+    }
+
+    .visual-brandApplications::before {
+      display: none;
+    }
+
+    .visual-brandApplications .slide-body {
+      gap: 18px;
+      padding-top: clamp(16px, 3vh, 32px);
+    }
+
+    .visual-brandApplications .copy {
+      width: min(880px, 100%);
+      max-width: 880px;
+    }
+
+    .slide:not(.cover):not(.closing)::after {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      top: clamp(88px, 12vh, 140px);
+      left: clamp(42px, 7vw, 120px);
+      width: 176px;
+      height: 146px;
+      opacity: 0.28;
+      background-image: radial-gradient(circle, var(--sand) 0 5px, transparent 5.5px);
+      background-size: 28px 28px;
+      pointer-events: none;
+    }
+
+    .slide-header,
+    .slide-footer {
+      position: relative;
+      z-index: 3;
       width: min(1180px, 100%);
       margin: 0 auto;
-      padding-bottom: 132px;
     }
 
     .slide-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 28px;
-      min-height: 86px;
+      gap: 22px;
+      min-height: 52px;
     }
 
-    .slide-mark {
+    .logo {
+      width: clamp(104px, 12vw, 148px);
+    }
+
+    .logo.dark {
+      width: clamp(122px, 14vw, 168px);
+    }
+
+    .pre-brand .logo,
+    .hide-logo .logo {
+      visibility: hidden;
+    }
+
+    .slide-number {
+      margin-inline-start: auto;
+      color: rgba(104, 115, 134, 0.82);
+      font-family: "Rubik", "Assistant", sans-serif;
+      font-size: 15px;
+      line-height: 1;
+      font-weight: 800;
+    }
+
+    .dark-slide .slide-number {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .slide-body {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr;
+      align-content: start;
+      gap: clamp(20px, 3vw, 36px);
+      width: min(1080px, 100%);
+      margin: 0 auto;
+      padding: clamp(22px, 5vh, 54px) 0 86px;
+    }
+
+    .cover .slide-body,
+    .closing .slide-body {
+      grid-template-columns: 1fr;
+    }
+
+    .cover .slide-body {
+      grid-template-columns: 1fr;
+      align-items: start;
+      padding-bottom: 190px;
+    }
+
+    .cover .copy {
+      max-width: 720px;
+    }
+
+    .cover .visual {
+      display: none;
+    }
+
+    .closing .copy {
+      width: min(920px, 100%);
+      max-width: 920px;
+    }
+
+    .closing h1 {
+      max-width: 12ch;
+      font-size: clamp(58px, 8vw, 110px);
+      line-height: 0.95;
+    }
+
+    .closing .tagline {
+      font-size: clamp(26px, 3.2vw, 46px);
+    }
+
+    .closing .lead {
+      font-size: clamp(24px, 2.8vw, 40px);
+      font-weight: 850;
+    }
+
+    .dark-slide {
+      color: var(--white);
+      background: var(--blue-deep);
+    }
+
+    .dark-slide::before {
+      background: rgba(216, 199, 160, 0.08);
+    }
+
+    .dark-slide::after {
+      background-image: radial-gradient(circle, rgba(216, 199, 160, 0.55) 0 5px, transparent 5.5px);
+    }
+
+    .dark-slide .deck-frame,
+    .dark-slide::before {
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .copy {
+      width: min(760px, 100%);
+      max-width: 760px;
+      justify-self: end;
+      text-align: right;
+    }
+
+    .eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+      margin: 0 0 16px;
       color: var(--olive-dark);
+      font-size: clamp(13px, 1.05vw, 16px);
       font-weight: 900;
-      font-size: 16px;
     }
 
-    .slide-mark::before {
+    .dark-slide .eyebrow {
+      color: var(--sand);
+    }
+
+    .eyebrow::before {
       content: "";
-      width: 52px;
+      width: 30px;
       height: 2px;
-      background: var(--olive);
+      background: currentColor;
     }
 
-    .top-logo {
-      width: clamp(154px, 18vw, 230px);
+    h1,
+    h2,
+    h3 {
+      font-family: "Rubik", "Assistant", "Segoe UI", Arial, sans-serif;
+      letter-spacing: 0;
     }
 
-    .top-logo img {
-      display: block;
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-      filter: drop-shadow(0 10px 16px rgba(17, 29, 51, 0.08));
-    }
-
-    .slide-content {
-      display: grid;
-      grid-template-columns: minmax(340px, 0.95fr) minmax(420px, 1.05fr);
-      align-items: center;
-      gap: clamp(28px, 6vw, 86px);
-    }
-
-    .slide-copy {
-      position: relative;
-      max-width: 610px;
-    }
-
-    .kicker {
-      margin: 0 0 14px;
-      color: var(--olive-dark);
-      font-size: 19px;
-      font-weight: 900;
-    }
-
-    .slide-copy h2 {
+    h1,
+    h2 {
       margin: 0;
       color: var(--blue-deep);
-      font-family: "Rubik", "Assistant", "Segoe UI", Arial, sans-serif;
-      font-size: clamp(44px, 6.2vw, 82px);
-      line-height: 0.98;
-      letter-spacing: 0;
+      font-weight: 900;
+      line-height: 0.96;
+    }
+
+    .dark-slide h1,
+    .dark-slide h2 {
+      color: var(--white);
+    }
+
+    h1 {
+      max-width: 12ch;
+      font-size: clamp(40px, 5.2vw, 66px);
+    }
+
+    h2 {
+      max-width: 14ch;
+      font-size: clamp(30px, 3.7vw, 48px);
+    }
+
+    .copy h1,
+    .copy h2 {
+      margin-right: 0;
+      margin-left: auto;
+    }
+
+    .wide-title h2 {
+      max-width: 15ch;
+    }
+
+    .single-line-title h2 {
+      max-width: none;
+      white-space: nowrap;
+      font-size: clamp(30px, 3.2vw, 44px);
+    }
+
+    .tagline {
+      margin: 18px 0 0;
+      color: var(--olive-dark);
+      font-family: "Rubik", "Assistant", sans-serif;
+      font-size: clamp(20px, 2.2vw, 30px);
+      line-height: 1.14;
       font-weight: 900;
     }
 
-    .slide-copy p {
-      margin: 24px 0 0;
-      color: var(--ink-soft);
-      font-size: clamp(19px, 1.55vw, 23px);
-      line-height: 1.58;
+    .dark-slide .tagline {
+      color: var(--sand);
+    }
+
+    .lead,
+    .copy p,
+    .text-block p {
+      color: var(--muted);
+      font-size: clamp(16px, 1.22vw, 19px);
+      line-height: 1.55;
       font-weight: 600;
     }
 
-    .proof-row {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 34px;
+    .lead,
+    .copy p {
+      margin: 22px 0 0;
     }
 
-    .proof-item {
-      min-height: 118px;
-      padding: 18px 16px;
-      border-radius: 8px;
-      background: rgba(248, 246, 241, 0.66);
-      border: 1px solid rgba(31, 53, 94, 0.08);
+    .dark-slide .lead,
+    .dark-slide .copy p {
+      color: rgba(255, 255, 255, 0.78);
     }
 
-    .proof-item img {
-      display: block;
-      width: 54px;
-      height: 54px;
-      margin-bottom: 8px;
-      object-fit: contain;
-    }
-
-    .proof-item strong {
-      display: block;
+    .emphasis {
+      display: inline-block;
       color: var(--blue-deep);
-      font-size: 17px;
-      line-height: 1.22;
+      font-weight: 900;
     }
 
-    .motif-stage {
+    .large-emphasis .emphasis {
+      max-width: 16ch;
+      font-family: "Rubik", "Assistant", sans-serif;
+      font-size: clamp(28px, 3.2vw, 48px);
+      line-height: 1.06;
+    }
+
+    .dark-slide .emphasis {
+      color: var(--sand);
+    }
+
+    .visual {
       position: relative;
-      min-height: 430px;
+      min-height: auto;
+      width: 100%;
     }
 
-    .arch-motif {
-      position: absolute;
-      inset: 0;
+    .statement-visual {
+      display: none;
+    }
+
+    .cover-logo {
       display: grid;
+      min-height: 330px;
       place-items: center;
     }
 
-    .arch-outline {
-      position: relative;
-      width: min(100%, 460px);
-      aspect-ratio: 1 / 1;
-      border: 10px solid rgba(216, 199, 160, 0.42);
-      border-bottom-color: transparent;
-      border-radius: 50% 50% 6px 6px;
+    .cover-logo img {
+      width: min(100%, 360px);
+      filter: drop-shadow(0 14px 22px rgba(17, 29, 51, 0.1));
+      animation: rise-in 850ms ease both;
     }
 
-    .stone-grid {
+    .dark-slide .cover-logo img {
+      filter: drop-shadow(0 26px 34px rgba(0, 0, 0, 0.24));
+    }
+
+    .dot-grid {
       position: absolute;
-      right: 16%;
-      bottom: 12%;
+      top: 8%;
+      left: 5%;
       display: grid;
-      grid-template-columns: repeat(4, 38px);
-      grid-auto-rows: 30px;
-      gap: 8px;
-      opacity: 0.72;
+      grid-template-columns: repeat(6, 8px);
+      grid-auto-rows: 8px;
+      gap: 15px;
+      opacity: 0.55;
     }
 
-    .stone-grid span {
-      border-radius: 4px;
-      background: rgba(216, 199, 160, 0.64);
+    .dot-grid span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--sand);
     }
 
-    .route-card {
+    .dark-slide .dot-grid span:nth-child(3n) {
+      background: var(--olive);
+    }
+
+    .line-art {
       position: absolute;
-      left: 0;
-      top: 50%;
-      width: min(86%, 430px);
-      padding: 28px 30px;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.88);
-      border: 1px solid rgba(31, 53, 94, 0.08);
-      box-shadow: 0 24px 70px rgba(17, 29, 51, 0.11);
-      transform: translateY(-50%);
+      right: 0;
+      bottom: 10%;
+      left: 4%;
+      height: 104px;
     }
 
-    .route-card h3 {
-      margin: 0 0 12px;
-      color: var(--olive-dark);
-      font-family: "Rubik", "Assistant", "Segoe UI", Arial, sans-serif;
-      font-size: 25px;
-      line-height: 1.15;
-    }
-
-    .route-card p {
-      margin: 0;
-      color: var(--blue-deep);
-      font-size: 18px;
-      line-height: 1.48;
-      font-weight: 700;
-    }
-
-    .slide-rail .track-line {
-      stroke-dashoffset: 0;
-      animation: none;
-    }
-
-    .brand-motif-card {
-      position: absolute;
-      left: 0;
-      top: 50%;
-      width: min(92%, 470px);
-      padding: 26px 28px 24px;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid rgba(31, 53, 94, 0.08);
-      box-shadow: 0 24px 70px rgba(17, 29, 51, 0.11);
-      transform: translateY(-50%);
-    }
-
-    .brand-motif-card h3 {
-      margin: 0 0 18px;
-      color: var(--blue-deep);
-      font-family: "Rubik", "Assistant", "Segoe UI", Arial, sans-serif;
-      font-size: 26px;
-      line-height: 1.15;
-    }
-
-    .motif-icons {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .motif-icon {
-      display: grid;
-      justify-items: center;
-      gap: 8px;
-      color: var(--blue-deep);
-      font-weight: 900;
-      font-size: 15px;
-      line-height: 1.15;
-      text-align: center;
-    }
-
-    .motif-icon img {
-      width: 88px;
-      height: 88px;
-      object-fit: contain;
-      filter: drop-shadow(0 12px 18px rgba(17, 29, 51, 0.08));
-    }
-
-    .brand-line-motif {
-      position: absolute;
-      right: 10%;
-      bottom: 12%;
-      width: min(78%, 420px);
-      height: 90px;
-      opacity: 0.95;
-    }
-
-    .brand-line-motif svg {
+    .line-art svg {
       width: 100%;
       height: 100%;
       overflow: visible;
     }
 
-    .footer-brand-slide .slide-shell {
-      padding-bottom: 132px;
+    .route-base {
+      fill: none;
+      stroke: rgba(31, 53, 94, 0.1);
+      stroke-width: 6;
+      stroke-linecap: round;
     }
 
-    .chapter-grid {
+    .route-line {
+      fill: none;
+      stroke: var(--blue-deep);
+      stroke-width: 2.7;
+      stroke-linecap: round;
+    }
+
+    .cover.is-active .line-art .route-line,
+    .closing.is-active .line-art .route-line {
+      stroke-dasharray: 720;
+      stroke-dashoffset: 720;
+      animation: draw-route 1.8s 240ms ease forwards;
+    }
+
+    .cover.is-active .line-art circle,
+    .closing.is-active .line-art circle {
+      opacity: 0;
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: soft-pop 520ms ease forwards;
+    }
+
+    .cover.is-active .line-art circle:nth-of-type(1),
+    .closing.is-active .line-art circle:nth-of-type(1) {
+      animation-delay: 780ms;
+    }
+
+    .cover.is-active .line-art circle:nth-of-type(2),
+    .closing.is-active .line-art circle:nth-of-type(2) {
+      animation-delay: 1.08s;
+    }
+
+    .cover.is-active .line-art circle:nth-of-type(3),
+    .closing.is-active .line-art circle:nth-of-type(3) {
+      animation-delay: 1.34s;
+    }
+
+    .dark-slide .route-base {
+      stroke: rgba(255, 255, 255, 0.16);
+    }
+
+    .dark-slide .route-line {
+      stroke: var(--white);
+    }
+
+    .cover-route {
+      position: absolute;
+      right: 0;
+      bottom: 96px;
+      left: 0;
+      z-index: 2;
+      height: 220px;
+      cursor: pointer;
+      pointer-events: auto;
+    }
+
+    .cover-route:hover .route-line {
+      stroke: var(--blue);
+    }
+
+    .cover-route svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .cover-route .route-base {
+      stroke: rgba(211, 197, 181, 0.45);
+      stroke-width: 8;
+    }
+
+    .cover-route .route-line {
+      stroke: var(--blue-deep);
+      stroke-width: 4;
+      stroke-dasharray: 1500;
+      stroke-dashoffset: 1500;
+    }
+
+    .cover-route::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 70px;
+      left: 0;
+      height: 74px;
+      background: linear-gradient(180deg, rgba(211, 197, 181, 0), rgba(211, 197, 181, 0.12));
+      opacity: 0.75;
+      pointer-events: none;
+    }
+
+    .cover.is-active .cover-route .route-line {
+      animation: draw-route 2s 260ms ease forwards;
+    }
+
+    .cover-route circle {
+      opacity: 0;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    .cover.is-active .cover-route circle {
+      animation: soft-pop 520ms ease forwards;
+    }
+
+    .cover.is-active .cover-route circle:nth-of-type(1) {
+      animation-delay: 860ms;
+    }
+
+    .cover.is-active .cover-route circle:nth-of-type(2) {
+      animation-delay: 1.14s;
+    }
+
+    .cover.is-active .cover-route circle:nth-of-type(3) {
+      animation-delay: 1.42s;
+    }
+
+    .card-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-      margin-top: 34px;
-      max-width: 620px;
+      gap: 16px;
+      width: min(760px, 100%);
+      justify-self: end;
     }
 
-    .chapter-item {
-      display: grid;
-      grid-template-columns: 62px 1fr;
-      align-items: center;
-      gap: 14px;
-      min-height: 96px;
-      padding: 16px;
+    .mini-card,
+    .anchor-card,
+    .step-card {
+      position: relative;
+      border: 1px solid var(--line);
       border-radius: 8px;
-      background: rgba(248, 246, 241, 0.62);
-      border: 1px solid rgba(31, 53, 94, 0.08);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(248, 246, 241, 0.72));
+      box-shadow: 0 18px 42px rgba(17, 29, 51, 0.045);
+      overflow: hidden;
+      --card-accent: var(--olive);
+      --card-soft: rgba(96, 122, 68, 0.08);
     }
 
-    .chapter-item img {
+    .mini-card {
+      min-height: 104px;
+      padding: 16px;
+    }
+
+    .mini-card::before,
+    .anchor-card::before,
+    .step-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 5px;
+      background: var(--card-accent);
+    }
+
+    .mini-card::after,
+    .anchor-card::after,
+    .step-card::after {
+      content: "";
+      position: absolute;
+      left: 18px;
+      bottom: 16px;
       width: 62px;
-      height: 62px;
-      object-fit: contain;
+      height: 18px;
+      opacity: 0.6;
+      background:
+        radial-gradient(circle at 10% 55%, var(--card-accent) 0 4px, transparent 4.5px),
+        radial-gradient(circle at 50% 45%, var(--sand) 0 3px, transparent 3.5px),
+        radial-gradient(circle at 88% 58%, var(--blue-deep) 0 3px, transparent 3.5px);
     }
 
-    .chapter-item strong {
+    .mini-card:nth-child(4n + 1),
+    .anchor-card:nth-child(4n + 1),
+    .step-card:nth-child(4n + 1) {
+      --card-accent: var(--blue-deep);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(26, 37, 60, 0.045));
+    }
+
+    .mini-card:nth-child(4n + 2),
+    .anchor-card:nth-child(4n + 2),
+    .step-card:nth-child(4n + 2) {
+      --card-accent: var(--olive);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(96, 122, 68, 0.075));
+    }
+
+    .mini-card:nth-child(4n + 3),
+    .anchor-card:nth-child(4n + 3),
+    .step-card:nth-child(4n + 3) {
+      --card-accent: var(--sand);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(216, 199, 160, 0.18));
+    }
+
+    .mini-card:nth-child(4n),
+    .anchor-card:nth-child(4n),
+    .step-card:nth-child(4n) {
+      --card-accent: #8a9746;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(248, 246, 241, 0.92));
+    }
+
+    .mini-card strong,
+    .anchor-card strong,
+    .step-card strong {
+      position: relative;
+      z-index: 1;
       display: block;
       color: var(--blue-deep);
-      font-size: 18px;
+      font-size: 17px;
       line-height: 1.2;
+      font-weight: 900;
     }
 
-    .footer-strip {
+    .mini-card p,
+    .anchor-card p,
+    .step-card p {
+      position: relative;
+      z-index: 1;
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.4;
+      font-weight: 650;
+    }
+
+    .list-panel {
+      display: grid;
+      gap: 12px;
+      width: min(760px, 100%);
+      justify-self: end;
+      padding: 26px 28px 34px;
+      border: 1px solid rgba(31, 53, 94, 0.1);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.94), rgba(248,246,241,0.78)),
+        radial-gradient(circle at 8% 88%, rgba(216,199,160,0.22), transparent 34%);
+      box-shadow: 0 20px 52px rgba(17, 29, 51, 0.055);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .list-panel::after {
+      content: "";
+      position: absolute;
+      right: 28px;
+      left: 28px;
+      bottom: 16px;
+      height: 18px;
+      opacity: 0.42;
+      background:
+        radial-gradient(circle at 20% 50%, var(--olive) 0 5px, transparent 5.5px),
+        radial-gradient(circle at 50% 50%, var(--blue) 0 5px, transparent 5.5px),
+        radial-gradient(circle at 78% 50%, var(--sand) 0 5px, transparent 5.5px);
+    }
+
+    .list-item {
+      display: grid;
+      grid-template-columns: 14px 1fr;
+      align-items: start;
+      gap: 12px;
+      color: var(--blue-deep);
+      font-size: clamp(16px, 1.18vw, 19px);
+      line-height: 1.38;
+      font-weight: 850;
+    }
+
+    .list-item::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      margin-top: 10px;
+      border-radius: 50%;
+      background: var(--olive);
+    }
+
+    .question-card {
+      position: relative;
+      margin-top: 26px;
+      padding: 24px 28px;
+      color: var(--white);
+      border-radius: 8px;
+      background: var(--blue-deep);
+      overflow: hidden;
+    }
+
+    .question-card strong {
+      position: relative;
+      z-index: 1;
+      display: block;
+      font-family: "Rubik", "Assistant", sans-serif;
+      font-size: clamp(28px, 3.1vw, 46px);
+      line-height: 1.08;
+    }
+
+    .quote-card {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 260px;
+      padding: 46px 32px 68px;
+      color: var(--blue-deep);
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.94), rgba(248,246,241,0.76));
+      border: 1px solid rgba(31, 53, 94, 0.08);
+      box-shadow: 0 20px 52px rgba(17, 29, 51, 0.045);
+      overflow: hidden;
+    }
+
+    .quote-card::before {
+      content: "";
       position: absolute;
       right: 0;
       bottom: 0;
       left: 0;
-      height: 110px;
-      z-index: -1;
-      overflow: hidden;
-      background: #ffffff;
+      height: 5px;
+      background: linear-gradient(90deg, var(--blue), var(--olive), var(--sand));
     }
 
-    .footer-strip img {
-      display: block;
+    .quote-card strong {
+      position: relative;
+      z-index: 1;
+      max-width: 13ch;
+      font-family: "Rubik", "Assistant", sans-serif;
+      font-size: clamp(30px, 3.7vw, 48px);
+      line-height: 1.02;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .statement-visual .dot-grid {
+      top: 2%;
+      left: 8%;
+      opacity: 0.28;
+    }
+
+    .statement-visual .line-art {
+      right: 4%;
+      bottom: -2px;
+      left: 2%;
+      height: 72px;
+      opacity: 0.48;
+    }
+
+    .neighborhood-visual {
+      width: min(980px, 100%);
+      height: 170px;
+      justify-self: end;
+      align-self: end;
+      margin-top: clamp(70px, 12vh, 140px);
+      overflow: hidden;
+    }
+
+    .neighborhood-visual img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       object-position: center bottom;
     }
 
-    .dot-grid-motif {
-      position: absolute;
-      top: 11%;
-      left: 7%;
+    .flow {
       display: grid;
-      grid-template-columns: repeat(6, 8px);
-      grid-auto-rows: 8px;
-      gap: 15px;
-      opacity: 0.78;
+      gap: 14px;
+      align-content: center;
+      width: min(760px, 100%);
+      justify-self: end;
     }
 
-    .dot-grid-motif span {
-      width: 8px;
-      height: 8px;
+    .flow-step {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      align-items: center;
+      gap: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      background: rgba(248, 246, 241, 0.7);
+      border: 1px solid var(--line);
+    }
+
+    .flow-step img {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+    }
+
+    .flow-step strong {
+      color: var(--blue-deep);
+      font-size: 18px;
+      line-height: 1.15;
+      font-weight: 900;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 13px;
+      color: var(--blue-deep);
+      font-weight: 900;
+      border: 1px solid rgba(138, 151, 70, 0.28);
+      border-radius: 999px;
+      background: rgba(248, 246, 241, 0.72);
+    }
+
+    .anchor-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      width: min(820px, 100%);
+      justify-self: end;
+    }
+
+    .anchor-card {
+      min-height: 150px;
+      padding: 18px;
+    }
+
+    .anchor-card img {
+      width: 58px;
+      height: 58px;
+      margin-bottom: 12px;
+      object-fit: contain;
+    }
+
+    .benefit-orbit {
+      position: relative;
+      min-height: 300px;
+      display: grid;
+      place-items: center;
+      width: min(760px, 100%);
+      justify-self: end;
+    }
+
+    .orbit-ring {
+      position: absolute;
+      width: min(90%, 420px);
+      aspect-ratio: 1;
+      border: 2px solid rgba(31, 53, 94, 0.12);
       border-radius: 50%;
-      background: var(--sand);
-      box-shadow: 0 0 0 1px rgba(216, 199, 160, 0.05);
     }
 
-    @keyframes draw-track {
-      to { stroke-dashoffset: 0; }
+    .orbit-center {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 142px;
+      height: 142px;
+      color: var(--white);
+      border-radius: 50%;
+      background: var(--blue-deep);
+      box-shadow: var(--shadow);
+      text-align: center;
+      font-family: "Rubik", "Assistant", sans-serif;
+      font-size: 20px;
+      line-height: 1.15;
+      font-weight: 900;
     }
 
-    @keyframes pop-dot {
-      from {
-        opacity: 0;
-        transform: scale(0.55);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
+    .orbit-chip {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      width: 94px;
+      height: 94px;
+      padding: 12px;
+      border-radius: 50%;
+      color: var(--blue-deep);
+      background: var(--cream);
+      border: 1px solid var(--line);
+      box-shadow: 0 14px 34px rgba(17, 29, 51, 0.09);
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.1;
+      font-weight: 900;
+    }
+
+    .orbit-chip:nth-child(3) { top: 4%; right: 38%; }
+    .orbit-chip:nth-child(4) { top: 24%; right: 5%; }
+    .orbit-chip:nth-child(5) { bottom: 14%; right: 13%; }
+    .orbit-chip:nth-child(6) { bottom: 6%; left: 28%; }
+    .orbit-chip:nth-child(7) { top: 28%; left: 5%; }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      width: min(760px, 100%);
+      justify-self: end;
+    }
+
+    .brand-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      width: min(980px, 100%);
+      justify-self: end;
+    }
+
+    .brand-card {
+      min-height: 156px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.78);
+      overflow: hidden;
+    }
+
+    .brand-card strong {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--blue-deep);
+      font-size: 16px;
+      line-height: 1.2;
+      font-weight: 900;
+    }
+
+    .brand-card img {
+      width: 100%;
+      height: 92px;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .brand-card.dark {
+      background: var(--blue-deep);
+    }
+
+    .brand-card.dark strong {
+      color: #fff;
+    }
+
+    .brand-card .swatches {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 7px;
+      margin-top: 18px;
+    }
+
+    .brand-card .swatches span {
+      height: 52px;
+      border-radius: 6px;
+      border: 1px solid rgba(17, 29, 51, 0.08);
+    }
+
+    .application-grid {
+      display: block;
+      width: min(980px, 100%);
+      justify-self: end;
+    }
+
+    .application-board {
+      width: 100%;
+      max-height: min(58vh, 560px);
+      object-fit: contain;
+      object-position: center;
+      background: var(--cream);
+      border-radius: 6px;
+      border: 1px solid rgba(31, 53, 94, 0.08);
+      box-shadow: 0 20px 52px rgba(17, 29, 51, 0.055);
+    }
+
+    .evolution-logos {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      width: min(880px, 100%);
+      justify-self: end;
+    }
+
+    .logo-compare-card {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+      min-height: 300px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .logo-compare-card h3 {
+      margin: 0;
+      color: var(--blue-deep);
+      font-size: 19px;
+      line-height: 1.2;
+    }
+
+    .logo-compare-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.45;
+      font-weight: 650;
+    }
+
+    .logo-compare-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .name-meaning {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 120px minmax(0, 1fr);
+      align-items: center;
+      gap: 18px;
+      width: min(860px, 100%);
+      justify-self: end;
+    }
+
+    .name-part {
+      min-height: 170px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .name-part strong {
+      display: block;
+      color: var(--blue-deep);
+      font-family: "Rubik", "Assistant", sans-serif;
+      font-size: 30px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .name-part p {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.45;
+      font-weight: 650;
+    }
+
+    .name-connector {
+      display: grid;
+      place-items: center;
+      min-height: 120px;
+    }
+
+    .name-connector svg {
+      width: 120px;
+      height: 72px;
+      overflow: visible;
+    }
+
+    .big-logo-visual {
+      display: grid;
+      place-items: center;
+      width: min(760px, 100%);
+      justify-self: end;
+      margin-top: clamp(36px, 6vh, 78px);
+    }
+
+    .big-logo-visual img {
+      width: min(520px, 72%);
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 16px 24px rgba(17, 29, 51, 0.1));
+    }
+
+    .swatch-card {
+      min-height: 128px;
+      padding: 18px;
+      border-radius: 8px;
+      color: var(--white);
+      display: grid;
+      align-content: end;
+      box-shadow: var(--shadow);
+    }
+
+    .swatch-card.light {
+      color: var(--blue-deep);
+      border: 1px solid var(--line);
+    }
+
+    .swatch-card strong {
+      display: block;
+      font-family: "Rubik", "Assistant", sans-serif;
+      font-size: 20px;
+      line-height: 1.1;
+      font-weight: 900;
+    }
+
+    .swatch-card span {
+      display: block;
+      margin-top: 8px;
+      font-size: 14px;
+      line-height: 1.25;
+      font-weight: 800;
+    }
+
+    .mockup-card {
+      position: relative;
+      width: min(900px, 100%);
+      justify-self: end;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: none;
+      border: 1px solid var(--line);
+      background: var(--cream);
+    }
+
+    .mockup-card img {
+      width: 100%;
+      height: 330px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .mockup-label {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      left: 20px;
+      padding: 14px 16px;
+      color: var(--blue-deep);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(31, 53, 94, 0.08);
+      backdrop-filter: blur(8px);
+    }
+
+    .mockup-label strong {
+      display: block;
+      font-family: "Rubik", "Assistant", sans-serif;
+      font-size: 20px;
+      line-height: 1.1;
+      font-weight: 900;
+    }
+
+    .mockup-label span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+      font-weight: 800;
+    }
+
+    .pilot-roadmap {
+      display: grid;
+      gap: 12px;
+      width: min(760px, 100%);
+      justify-self: end;
+    }
+
+    .step-card {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      align-items: center;
+      gap: 14px;
+      min-height: 64px;
+      padding: 10px 12px;
+    }
+
+    .step-number {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      color: var(--white);
+      border-radius: 50%;
+      background: var(--blue-deep);
+      font-weight: 900;
+    }
+
+    .skyline {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      height: 78px;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .skyline img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center bottom;
+    }
+
+    .controls {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      pointer-events: none;
+    }
+
+    .control-button {
+      display: grid;
+      place-items: center;
+      position: absolute;
+      top: 50%;
+      width: 42px;
+      height: 42px;
+      color: var(--blue-deep);
+      border: 1px solid rgba(31, 53, 94, 0.12);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      font-size: 24px;
+      font-weight: 900;
+      transform: translateY(-50%);
+      pointer-events: auto;
+      backdrop-filter: blur(10px);
+      transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+    }
+
+    .control-button[data-prev] {
+      right: 22px;
+    }
+
+    .control-button[data-next] {
+      left: 22px;
+    }
+
+    .control-button:hover {
+      border-color: rgba(138, 151, 70, 0.36);
+      background: rgba(255, 255, 255, 0.92);
+      transform: translateY(-50%) scale(1.03);
     }
 
     @keyframes rise-in {
-      from {
-        opacity: 0;
-        transform: translateY(18px) scale(0.98);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+      from { opacity: 0; transform: translateY(18px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    @keyframes fade-up {
-      from {
-        opacity: 0;
-        transform: translateY(16px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @keyframes draw-route {
+      to { stroke-dashoffset: 0; }
     }
 
-    @media (max-width: 900px) {
-      .page {
-        padding: 28px 20px 26px;
+    @keyframes soft-pop {
+      from { opacity: 0; transform: scale(0.6); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes reveal-logo {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 780px) {
+      body {
+        overflow: auto;
       }
 
-      .page::before {
-        inset: 14px;
+      .deck {
+        min-height: 100svh;
       }
 
-      .hero {
-        grid-template-columns: 1fr;
-        gap: 18px;
-        padding: 14px 0 118px;
+      .deck-frame {
+        inset: 12px;
       }
 
-      .brand-stage {
-        order: -1;
-        min-height: 260px;
+      .slide {
+        position: relative;
+        display: none;
+        min-height: 100svh;
+        padding: 26px 20px 94px;
+        transform: none;
       }
 
-      .logo-panel {
-        width: min(100%, 430px);
-      }
-
-      .intro {
-        max-width: 100%;
-        text-align: center;
-      }
-
-      h1 {
-        max-width: 10ch;
-        margin-inline: auto;
-      }
-
-      .tagline {
-        max-width: 16ch;
-        margin-inline: auto;
-      }
-
-      .subtitle {
-        max-width: 32rem;
-        margin-inline: auto;
-      }
-
-      .eyebrow {
-        justify-content: center;
-      }
-
-      .hint {
-        width: 100%;
-      }
-
-      .rail {
-        height: 132px;
-      }
-
-      .rail svg {
-        min-width: 720px;
-        height: 132px;
-      }
-
-      .content-slide {
-        padding: 28px 20px 26px;
-      }
-
-      .content-slide::before {
-        inset: 14px;
-      }
-
-      .slide-shell {
-        padding-bottom: 118px;
+      .slide.is-active {
+        display: grid;
       }
 
       .slide-header {
-        min-height: 72px;
+        min-height: 62px;
       }
 
-      .slide-content {
+      .slide-body,
+      .cover .slide-body,
+      .closing .slide-body {
         grid-template-columns: 1fr;
-        gap: 18px;
+        gap: 20px;
+        padding-bottom: 98px;
       }
 
-      .slide-copy {
+      .copy {
         max-width: 100%;
-        text-align: center;
+        text-align: right;
       }
 
-      .slide-copy h2 {
-        max-width: 11ch;
-        margin-inline: auto;
+      h1,
+      h2 {
+        margin-right: 0;
+        margin-left: auto;
       }
 
-      .proof-row {
+      .single-line-title h2 {
+        max-width: 100%;
+        white-space: normal;
+        font-size: clamp(28px, 9vw, 40px);
+        line-height: 1.02;
+      }
+
+      .wide-title h2 {
+        max-width: 100%;
+        font-size: clamp(28px, 9vw, 40px);
+        line-height: 1.02;
+      }
+
+      .visual {
+        min-height: auto;
+        order: 0;
+      }
+
+      .cover-logo {
+        min-height: 260px;
+      }
+
+      .cover .slide-body {
+        padding-bottom: 126px;
+      }
+
+      .cover-route {
+        height: 140px;
+        bottom: 72px;
+      }
+
+      .card-grid,
+      .anchor-grid,
+      .palette-grid,
+      .evolution-logos,
+      .name-meaning,
+      .brand-cards-grid,
+      .application-grid {
         grid-template-columns: 1fr;
-        max-width: 360px;
-        margin-inline: auto;
       }
 
-      .motif-stage {
-        min-height: 270px;
-        order: -1;
+      .application-grid {
+        width: 100%;
       }
 
-      .route-card {
-        right: 50%;
-        left: auto;
-        width: min(100%, 390px);
-        padding: 22px 24px;
-        transform: translate(50%, -50%);
+      .application-board {
+        max-height: none;
       }
+
+      .proof-group {
+        max-height: 43svh;
+        overflow: auto;
+      }
+
+      .mockup-card img {
+        height: 310px;
+      }
+
+      .orbit-chip {
+        position: relative;
+        inset: auto !important;
+      }
+
+      .benefit-orbit {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        align-items: stretch;
+        min-height: 260px;
+      }
+
+      .orbit-ring,
+      .orbit-center {
+        display: none;
+      }
+
+      .orbit-chip {
+        width: auto;
+        height: auto;
+        min-height: 82px;
+        border-radius: 8px;
+      }
+
+      .controls {
+        max-width: none;
+      }
+
     }
 
-    @media (max-width: 520px) {
-      .page {
-        min-height: 100svh;
+    @media (max-width: 560px) {
+      .slide {
         padding-inline: 18px;
       }
 
-      .hero {
-        padding-bottom: 105px;
+      .logo {
+        width: 132px;
       }
 
-      .brand-stage {
-        min-height: 215px;
+      .lead,
+      .copy p,
+      .text-block p {
+        font-size: 18px;
       }
 
-      .logo-panel {
-        padding: 10px;
+      .list-panel {
+        padding: 18px;
       }
 
-      .eyebrow {
-        margin-bottom: 13px;
+      .list-item {
+        font-size: 18px;
       }
 
-      .eyebrow::before {
-        width: 32px;
+      .anchor-card {
+        min-height: 150px;
       }
 
-      .subtitle {
-        margin-top: 16px;
+      .brand-cards-grid {
+        gap: 10px;
       }
 
-      .actions {
-        margin-top: 24px;
+      .name-connector {
+        min-height: 52px;
       }
 
-      .journey-button {
-        width: 100%;
+      .skyline {
+        height: 74px;
+      }
+
+      .controls {
+        padding: 0;
+      }
+
+      .control-button {
+        width: 38px;
+        height: 38px;
       }
     }
 
@@ -871,245 +1480,509 @@
   </style>
 </head>
 <body>
-  <a class="brandbook-link" href="brand.html">ספר מותג</a>
-  <main class="page" aria-labelledby="page-title">
-    <section class="hero">
-      <div class="intro">
-        <p class="eyebrow">הצעה לבניית זהות חינוכית ייחודית</p>
-        <h1 id="page-title">קמפוס גאולים המסילה</h1>
-        <p class="tagline">למידה שיוצאת מגבולות הכיתה</p>
-        <p class="subtitle">
-          פתיחה אינטראקטיבית למצגת שתציג למנהלת בית הספר את החזון, השפה והדרך להפוך את גאולים לבית ספר ממלכתי שכונתי עם סיפור ברור.
-        </p>
-        <div class="actions">
-          <button class="journey-button" type="button" aria-describedby="journey-note">
-            <span>התחל/י את המסע</span>
-            <span class="arrow" aria-hidden="true">←</span>
-          </button>
-          <span class="hint" id="journey-note">דוגמת עמוד ראשון למצגת האינטראקטיבית</span>
-        </div>
-      </div>
-
-      <figure class="brand-stage" aria-label="לוגו קמפוס גאולים המסילה">
-        <div class="logo-panel">
-          <img src="assets/gaolim-logo-no-circle.png" alt="קמפוס גאולים המסילה - למידה שיוצאת מגבולות הכיתה">
-        </div>
-      </figure>
-    </section>
-
-    <div class="rail" aria-hidden="true">
-      <svg viewBox="0 0 1440 175" preserveAspectRatio="none">
-        <path class="land" d="M0 121 C185 92 316 142 472 109 C636 75 747 146 904 113 C1082 75 1191 111 1440 83 L1440 175 L0 175 Z"></path>
-        <path class="track-base" d="M-20 112 C150 76 298 145 458 108 C618 70 730 139 888 108 C1063 72 1218 110 1460 79"></path>
-        <path class="track-line" d="M-20 112 C150 76 298 145 458 108 C618 70 730 139 888 108 C1063 72 1218 110 1460 79"></path>
-        <circle class="dot one" cx="440" cy="111" r="11" fill="#8a9746"></circle>
-        <circle class="dot two" cx="877" cy="109" r="9" fill="#1f355e"></circle>
-        <circle class="dot three" cx="1180" cy="96" r="8" fill="#d8c7a0"></circle>
-      </svg>
-    </div>
-
-    <aside class="status-card" role="status" aria-live="polite">
-      <strong>המסע נפתח</strong>
-      <span>במצגת המלאה הכפתור יעבור לשקף הבא: הסיפור שהוליד את קמפוס גאולים המסילה.</span>
-    </aside>
+  <main class="deck" aria-live="polite">
+    <div class="deck-frame" aria-hidden="true"></div>
+    <div id="slides"></div>
+    <nav class="controls" aria-label="ניווט במצגת">
+      <button class="control-button" type="button" data-prev aria-label="שקף קודם">‹</button>
+      <button class="control-button" type="button" data-next aria-label="שקף הבא">›</button>
+    </nav>
   </main>
 
-  <section class="content-slide" id="slide-two" aria-labelledby="slide-two-title">
-    <div class="slide-shell">
-      <header class="slide-header">
-        <div class="top-logo" aria-label="לוגו קמפוס גאולים המסילה">
-          <img src="assets/gaolim-logo-no-circle.png" alt="קמפוס גאולים המסילה">
-        </div>
-        <div class="slide-mark">שקף 02</div>
-      </header>
-
-      <div class="slide-content">
-        <div class="slide-copy">
-          <p class="kicker">הסיפור שמאחורי השפה</p>
-          <h2 id="slide-two-title">לא עוד מיתוג. תפיסה חינוכית.</h2>
-          <p>
-            קמפוס גאולים המסילה מציע לבית הספר שפה אחת שמחברת בין חזון, פדגוגיה ומרחב:
-            הילדים יוצאים מהכיתה, פוגשים את השכונה, חוקרים את המקום וחוזרים עם תוצרים אמיתיים.
-          </p>
-
-          <div class="proof-row" aria-label="עוגני המהלך">
-            <div class="proof-item">
-              <img src="assets/icons/place-based-learning.png" alt="">
-              <strong>למידה מבוססת מקום</strong>
-            </div>
-            <div class="proof-item">
-              <img src="assets/icons/research-discovery.png" alt="">
-              <strong>חקר וגילוי</strong>
-            </div>
-            <div class="proof-item">
-              <img src="assets/icons/community.png" alt="">
-              <strong>קהילה כשותפה</strong>
-            </div>
-          </div>
-
-          <button class="slide-nav-button" type="button" data-target="#slide-three">
-            <span>לראות פס מותג תחתון</span>
-            <span aria-hidden="true">←</span>
-          </button>
-        </div>
-
-        <div class="motif-stage" aria-hidden="true">
-          <div class="dot-grid-motif">
-            <span></span><span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span><span></span>
-          </div>
-
-          <div class="brand-motif-card">
-            <h3>מוטיבים מתוך המיתוג</h3>
-            <div class="motif-icons">
-              <div class="motif-icon">
-                <img src="assets/icons/neighborhood.png" alt="">
-                <span>שכונה</span>
-              </div>
-              <div class="motif-icon">
-                <img src="assets/icons/sustainability.png" alt="">
-                <span>קיימות</span>
-              </div>
-              <div class="motif-icon">
-                <img src="assets/icons/personal-growth.png" alt="">
-                <span>צמיחה</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="brand-line-motif">
-            <svg viewBox="0 0 420 90" preserveAspectRatio="none">
-              <path d="M0 48 C70 12 122 78 184 44 C246 10 288 64 420 31" fill="none" stroke="#111d33" stroke-width="4" stroke-linecap="round"></path>
-              <circle cx="66" cy="32" r="10" fill="#8a9746"></circle>
-              <circle cx="214" cy="35" r="9" fill="#1f355e"></circle>
-              <circle cx="338" cy="39" r="8" fill="#d8c7a0"></circle>
-            </svg>
-          </div>
-        </div>
-      </div>
+  <template id="dot-grid-template">
+    <div class="dot-grid" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
     </div>
-
-    <div class="rail slide-rail" aria-hidden="true">
-      <svg viewBox="0 0 1440 175" preserveAspectRatio="none">
-        <path class="land" d="M0 121 C185 92 316 142 472 109 C636 75 747 146 904 113 C1082 75 1191 111 1440 83 L1440 175 L0 175 Z"></path>
-        <path class="track-base" d="M-20 112 C150 76 298 145 458 108 C618 70 730 139 888 108 C1063 72 1218 110 1460 79"></path>
-        <path class="track-line" d="M-20 112 C150 76 298 145 458 108 C618 70 730 139 888 108 C1063 72 1218 110 1460 79"></path>
-        <circle cx="440" cy="111" r="11" fill="#8a9746"></circle>
-        <circle cx="877" cy="109" r="9" fill="#1f355e"></circle>
-        <circle cx="1180" cy="96" r="8" fill="#d8c7a0"></circle>
-      </svg>
-    </div>
-  </section>
-
-  <section class="content-slide footer-brand-slide" id="slide-three" aria-labelledby="slide-three-title">
-    <div class="slide-shell">
-      <header class="slide-header">
-        <div class="top-logo" aria-label="לוגו קמפוס גאולים המסילה">
-          <img src="assets/gaolim-logo-no-circle.png" alt="קמפוס גאולים המסילה">
-        </div>
-        <div class="slide-mark">שקף 03</div>
-      </header>
-
-      <div class="slide-content">
-        <div class="slide-copy">
-          <p class="kicker">פס מותג תחתון</p>
-          <h2 id="slide-three-title">חתימת מותג חזקה, לא בכל שקף.</h2>
-          <p>
-            הפס התחתון משמש כחתימה לפרקים חשובים: הוא מכניס את השכונה, המסילה,
-            האייקונים והמסר המרכזי בלי להעמיס על כל עמוד במצגת.
-          </p>
-
-          <div class="chapter-grid" aria-label="שימושים לפס המותג">
-            <div class="chapter-item">
-              <img src="assets/icons/initiative.png" alt="">
-              <strong>שקפי פתיחה לפרק</strong>
-            </div>
-            <div class="chapter-item">
-              <img src="assets/icons/neighborhood.png" alt="">
-              <strong>שקפי שכונה ומרחב</strong>
-            </div>
-            <div class="chapter-item">
-              <img src="assets/icons/personal-growth.png" alt="">
-              <strong>שקפי סיכום ביניים</strong>
-            </div>
-            <div class="chapter-item">
-              <img src="assets/icons/community.png" alt="">
-              <strong>שקפי קהילה ושותפות</strong>
-            </div>
-          </div>
-        </div>
-
-        <div class="motif-stage" aria-hidden="true">
-          <div class="dot-grid-motif">
-            <span></span><span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span><span></span>
-          </div>
-
-          <div class="brand-motif-card">
-            <h3>מתי משתמשים בו?</h3>
-            <div class="motif-icons">
-              <div class="motif-icon">
-                <img src="assets/icons/place-based-learning.png" alt="">
-                <span>חזון</span>
-              </div>
-              <div class="motif-icon">
-                <img src="assets/icons/sustainability.png" alt="">
-                <span>מקום</span>
-              </div>
-              <div class="motif-icon">
-                <img src="assets/icons/leadership.png" alt="">
-                <span>השפעה</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="brand-line-motif">
-            <svg viewBox="0 0 420 90" preserveAspectRatio="none">
-              <path d="M0 48 C70 12 122 78 184 44 C246 10 288 64 420 31" fill="none" stroke="#111d33" stroke-width="4" stroke-linecap="round"></path>
-              <circle cx="66" cy="32" r="10" fill="#8a9746"></circle>
-              <circle cx="214" cy="35" r="9" fill="#1f355e"></circle>
-              <circle cx="338" cy="39" r="8" fill="#d8c7a0"></circle>
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-strip" aria-hidden="true">
-      <img src="assets/gaolim-skyline-official-transparent.png" alt="">
-    </div>
-  </section>
+  </template>
 
   <script>
-    const button = document.querySelector(".journey-button");
-    const statusCard = document.querySelector(".status-card");
-    const secondSlide = document.querySelector("#slide-two");
-    const navButtons = document.querySelectorAll("[data-target]");
-    let hideTimer;
+    const assets = {
+      logo: "assets/gaolim-logo-no-circle.png",
+      darkLogo: "assets/gaolim-logo-dark-bg.png",
+      skyline: "assets/gaolim-skyline-official-transparent.png",
+      mockup: "assets/future-use/school-entrance-signage-mockup.png",
+      brandApplications: "assets/brand-board-applications.png",
+      logoPage: "assets/brand-logo-board.png",
+      footerStrip: "assets/gaolim-brand-footer-strip.png",
+      icons: {
+        place: "assets/brand-elements/icons-clean/place-based-learning.png",
+        research: "assets/brand-elements/icons-clean/research-discovery.png",
+        community: "assets/brand-elements/icons-clean/community.png",
+        initiative: "assets/brand-elements/icons-clean/initiative.png",
+        leadership: "assets/brand-elements/icons-clean/leadership.png",
+        sustainability: "assets/brand-elements/icons-clean/sustainability.png",
+        neighborhood: "assets/brand-elements/icons-clean/neighborhood.png",
+        growth: "assets/brand-elements/icons-clean/personal-growth.png"
+      }
+    };
 
-    button.addEventListener("click", () => {
-      button.classList.add("is-active");
-      statusCard.classList.add("show");
-      clearTimeout(hideTimer);
-      secondSlide.scrollIntoView({ behavior: "smooth", block: "start" });
-      hideTimer = setTimeout(() => {
-        button.classList.remove("is-active");
-        statusCard.classList.remove("show");
-      }, 1200);
+    const slides = [
+      {
+        type: "cover",
+        phase: "rationale",
+        eyebrow: "הצעה לבניית זהות חינוכית ייחודית לבית ספר גאולים",
+        title: "למידה שיוצאת מגבולות הכיתה",
+        tagline: "הצעה לבניית זהות חינוכית ייחודית",
+        text: "מצגת אינטראקטיבית שמתחילה ברציונל החינוכי, ורק בהמשך חושפת את הזהות והשפה החדשה.",
+        dark: false
+      },
+      {
+        eyebrow: "רציונל",
+        phase: "rationale",
+        title: "מבית ספר למרכז למידה שכונתי",
+        text: "המודל המוצע אינו שואף לשנות את מהות בית הספר, אלא למנף את המיקום הייחודי של גאולים כצומת המחברת בין הכיתה למרחב הציבורי של בקעה ופארק המסילה.",
+        emphasis: "המטרה היא להפוך את הלמידה למעניינת, רלוונטית וקהילתית יותר, תוך שמירה על המבנה הארגוני המוכר של משרד החינוך.",
+        visual: "quote",
+        quote: "בית ספר קהילתי-יוזם"
+      },
+      {
+        eyebrow: "תפעול",
+        phase: "rationale",
+        title: "שגרה גמישה בלי לשבור סדרויות",
+        text: "השינויים בשגרה מיועדים להקל על המורים והתלמידים, לא להכביד עליהם.",
+        visual: "cards",
+        cards: [
+          ["פתיחת יום מדורגת", "חלון של כ-15 דקות למעגלי שיח או קריאה חופשית בחצר."],
+          ["אירועי שיא קהילתיים", "טקסים וימי תוצרים כתוצר טבעי של העשייה."],
+          ["הליכה שכונתית", "נורמות הליכה בטוחה ואחריות אזרחית עם אפודים בסיסיים."],
+          ["סדירויות קיימות", "פותחים שבוע, סוגרים שבוע, טקסים ותוכן קיים מקבלים שפה פדגוגית משותפת."]
+        ]
+      },
+      {
+        eyebrow: "01",
+        phase: "rationale",
+        title: "לא עוד מיתוג. תפיסה חינוכית.",
+        text: "היוזמה נולדה מתוך מחקר רחב על מגמות חינוכיות בישראל, בירושלים ובשכונת בקעה בפרט. המסקנה ברורה: בתי ספר שמצליחים למשוך קהילה חזקה אינם מציעים רק מערכת שעות. הם מציעים סיפור חינוכי ברור.",
+        emphasis: "המטרה: להפוך את גאולים לבית ספר ממלכתי שכונתי עם זהות מובחנת, עדכנית ומחוברת למקום.",
+        visual: "quote",
+        quote: "סיפור חינוכי ברור"
+      },
+      {
+        eyebrow: "02",
+        phase: "rationale",
+        title: "מה ראינו במחקר?",
+        text: "במרחב החינוכי סביב בקעה קיימים בתי ספר עם בידול חזק. מול זה, בית ספר ממלכתי שכונתי חייב להציע תשובה ברורה לשאלה:",
+        emphasis: "למה לבחור דווקא בגאולים?",
+        visual: "list",
+        items: ["דמוקרטיים: חופש ובחירה", "אנתרופוסופיים: חינוך הוליסטי", "אמנויות: יצירה וביטוי אישי", "טבע: למידה במרחב פתוח", "ממ\"ד: קהילה וזהות ערכית ברורה"]
+      },
+      {
+        eyebrow: "03",
+        phase: "rationale",
+        title: "ההזדמנות של גאולים",
+        text: "היתרון הגדול של גאולים אינו צריך להיבנות מבחוץ. הוא כבר קיים: לב שכונת בקעה, פארק המסילה, ומרחב עירוני קהילתי עשיר, חי ונגיש.",
+        emphasis: "בית ספר ממלכתי שבו השכונה הופכת למרחב למידה.",
+        largeEmphasis: true,
+        visual: "neighborhood"
+      },
+      {
+        eyebrow: "04",
+        phase: "rationale",
+        singleLineTitle: true,
+        title: "הרעיון המרכזי: גאולים-המסילה",
+        text: "השם מחבר בין שני דברים שכבר קיימים: גאולים כבית ספר שכונתי, והמסילה כדרך פתוחה. זו גם מסילת הרכבת ההיסטורית שמחברת בין שכונות העיר ירושלים, וגם הדרך שמחברת את הכיתה אל בקעה, אל הקהילה ואל החיים עצמם.",
+        emphasis: "גאולים הוא הבית. המסילה היא הדרך שבה הלמידה יוצאת ממנו וחוזרת אליו עם חקר, תוצרים ומשמעות.",
+        visual: "nameMeaning"
+      },
+      {
+        eyebrow: "05",
+        phase: "rationale",
+        title: "למה המסילה?",
+        text: "המסילה נבחרה כסמל משום שהיא מייצגת בדיוק את הסיפור החינוכי שאנחנו רוצים לספר.",
+        emphasis: "כמו שהמסילה מחברת בין שכונות ואנשים, כך גאולים המסילה יחבר בין הכיתה לקהילה, בין הלמידה לחיים ובין הילדים למקום שבו הם גדלים.",
+        visual: "route",
+        pills: ["דרך", "תנועה", "חיבור", "מסע", "התפתחות"]
+      },
+      {
+        eyebrow: "06",
+        phase: "rationale",
+        title: "מה זה אומר בפועל?",
+        text: "הלמידה הופכת ממשהו מופשט למשהו חי, מוחשי ורלוונטי.",
+        visual: "list",
+        items: ["מדעים יוצאים אל פארק המסילה", "מתמטיקה הופכת למדידה ומיפוי", "שפה הופכת לראיונות עם תושבי השכונה", "אמנות הופכת לתערוכה קהילתית", "אזרחות הופכת לפרויקט לשיפור המרחב הציבורי"]
+      },
+      {
+        eyebrow: "07",
+        phase: "rationale",
+        title: "ארבעת עוגני המודל",
+        text: "המודל בנוי מארבעה עוגנים פשוטים וברורים, שכל אחד מהם יכול להפוך לשגרה בית ספרית.",
+        visual: "anchors",
+        anchors: [
+          ["השכונה ככיתה", "המרחב סביב בית הספר הופך לחלק מתוכנית הלמידה.", assets.icons.neighborhood],
+          ["למידה מתוך עשייה", "הילדים חוקרים, יוצרים ומציגים תוצרים אמיתיים.", assets.icons.initiative],
+          ["קהילה כשותפה", "הורים, תושבים וגורמים קהילתיים הופכים למשאב חינוכי.", assets.icons.community],
+          ["צמיחה אישית", "כל ילד יוצא למסע של סקרנות, מסוגלות והשפעה.", assets.icons.growth]
+        ]
+      },
+      {
+        eyebrow: "08",
+        phase: "rationale",
+        title: "מה הילדים מרוויחים?",
+        text: "המודל מחזק אצל הילדים שייכות, סקרנות, ביטחון עצמי, עבודת צוות, אחריות ויכולת השפעה.",
+        emphasis: "הם לומדים לא רק לדעת יותר, אלא להבין טוב יותר את העולם שסביבם ולהרגיש שיש להם מקום בתוכו.",
+        visual: "orbit",
+        chips: ["שייכות", "סקרנות", "ביטחון עצמי", "עבודת צוות", "יכולת השפעה", "הורים שותפים לעשייה החינוכית"]
+      },
+      {
+        eyebrow: "09",
+        phase: "rationale",
+        title: "מה בית הספר מרוויח?",
+        text: "זהות ברורה, סיפור חינוכי ייחודי, חיבור עמוק יותר לקהילה ושפה משותפת לצוות ולהורים.",
+        emphasis: "יכולת למשוך משפחות שמחפשות בית ספר ציבורי איכותי וחדשני בתוך השכונה.",
+        visual: "cards",
+        cards: [["זהות ברורה", "סיפור שקל להסביר"], ["קהילה", "חיבור עמוק יותר"], ["שפה משותפת", "צוות, הורים וילדים"], ["בידול", "מענה לשאלה למה גאולים"]]
+      },
+      {
+        eyebrow: "10",
+        phase: "rationale",
+        title: "מה ההורים מרוויחים?",
+        text: "הורים מקבלים אפשרות לבחור בבית ספר ציבורי, ממלכתי, איכותי וחדשני, בלי לצאת מהשכונה ובלי לוותר על תחושת קהילה.",
+        emphasis: "לא צריך לחפש רחוק כדי למצוא חינוך משמעותי. הוא יכול להתחיל כאן, בגאולים."
+      },
+      {
+        eyebrow: "11",
+        phase: "reveal",
+        title: "למה צריך גם שפה עיצובית?",
+        text: "כדי שרעיון חינוכי יהפוך לזהות בית ספרית, הוא צריך שפה: צבעים, סמלים, אייקונים, שלטים, מסמכים, חולצות ומרחבי למידה.",
+        emphasis: "המיתוג אינו המטרה. הוא הכלי שמאפשר לילדים, להורים ולצוות להרגיש שיש כאן סיפור אחד ברור.",
+        hideLogo: true,
+        visual: "icons"
+      },
+      {
+        eyebrow: "חשיפה",
+        phase: "reveal",
+        title: "מהשפה הישנה לשפה חדשה",
+        text: "הלוגו והשפה הקיימת מספרים על בית חם וקהילתי. המהלך החדש אינו מוחק את זה, אלא מפתח אותו לשפה בוגרת, שכונתית ופדגוגית יותר.",
+        visual: "brandEvolution"
+      },
+      {
+        eyebrow: "12",
+        phase: "reveal",
+        title: "המרחב כמחנך",
+        text: "העיצוב נשען על הרעיון שהמרחב אינו נייטרלי. הוא שחקן מפתח בחינוך הילד, ומספר את סיפורה של בקעה דרך מודרניזם חם, אלמנטים אורגניים וקהילתיות.",
+        emphasis: "השפה החזותית לא מקשטת את בית הספר. היא הופכת את המקום לחלק מהלמידה.",
+        visual: "anchors",
+        anchors: [
+          ["הקשת והעיגול", "אדריכלות בקעה, שייכות ומוגנות קהילתית.", assets.icons.neighborhood],
+          ["המסילה קדימה", "תנועה מתוך הכיתה אל המרחב והאופק.", assets.icons.growth],
+          ["טבע ובנוי", "עצים, אדמה וקיימות כחלק מהחינוך.", assets.icons.sustainability],
+          ["זכוכית מגדלת", "הילדים חוקרים את הסביבה הקרובה שלהם.", assets.icons.research]
+        ]
+      },
+      {
+        eyebrow: "13",
+        title: "השפה שבחרנו",
+        text: "הצבעוניות נבחרה מתוך השטח והנוף של שכונת בקעה ופארק המסילה: גוונים עמוקים לריכוז וביטחון, לצד גוונים חמים שמחזיקים את התחושה השכונתית.",
+        emphasis: "יחד נוצרת שפה חמה, ירושלמית, חינוכית ולא ילדותית מדי.",
+        visual: "palette",
+        swatches: [
+          ["כחול גאולים", "יציבות, ביטחון ועומק אקדמי", "#1A253C", false],
+          ["ירוק מסילה", "צמיחה, טבע, קיימות ואקטיביזם", "#607A44", false],
+          ["חול בקעה", "אבן ירושלמית, חמימות ושורשים", "#D3C5B5", true],
+          ["Warm Cream", "נשימה, אור טבעי והיעדר עומס", "#FAF8F5", true]
+        ]
+      },
+      {
+        eyebrow: "14",
+        title: "השפה נכנסת לשגרה",
+        text: "השפה החזותית אינה נעצרת בנייר מכתבים. היא יכולה להפוך לחלק מהחיים הבית ספריים ולשבור סדירויות קיימות בצורה נעימה, בטוחה ומשחקית.",
+        visual: "cards",
+        cards: [
+          ["המסילה המצוירת", "קו הכוונה ומשחק מהרצפה אל הספרייה והמרחבים."],
+          ["ערכת החוקר הצעיר", "פאוץ' שטח ופנקס לימי חקר מחוץ לכיתה."],
+          ["אוטובוס מהלך", "אפודי בטיחות ממותגים ליציאות לפארק ולגינות."],
+          ["שילוט מבוסס מקום", "מרחב האקליפטוס, בתי המידות וסטודיו חקר המסילה."]
+        ]
+      },
+      {
+        eyebrow: "15",
+        title: "השפה יוצאת החוצה",
+        text: "הורי בקעה רגישים לאסתטיקה, בהירות וסיפור. לכן השפה יכולה להפוך גם לכלי חשיפה, רישום וקשר עם הקהילה.",
+        visual: "cards",
+        cards: [
+          ["דף נחיתה לקהילה", "רקע נקי, צילומי שטח וקישורים לקבוצות הווטסאפ."],
+          ["השבוע יצאנו אל...", "גלריית תוצרי חקר ועדכונים בכל יום שישי."],
+          ["יריד התוצרים על המסילה", "כרזות בשכונה שמזמינות לראות עשייה בעיניים."],
+          ["נראות שכונתית", "המותג פוגש הורים, תושבים וגני חובה במרחב."]
+        ]
+      },
+      {
+        eyebrow: "16",
+        title: "איך זה ייראה בבית הספר?",
+        text: "השפה יכולה לצאת מהמצגת אל המרחב: שלט כניסה, קיר חזון, שמות למרחבי למידה, חולצות, נייר לוגו, חתימה למייל, מחברות פרויקט, מדבקות, תערוכות ואירועי שיא.",
+        visual: "mockup"
+      },
+      {
+        eyebrow: "17",
+        title: "פיילוט בשנה הראשונה",
+        text: "כך מתחילים קטן, מדויק וישים, בלי להפוך את בית הספר ביום אחד.",
+        visual: "roadmap",
+        steps: ["גיבוש חזון עם הנהלה וצוות", "בניית שפה גרפית בסיסית", "יום מסילה ראשון", "פרויקט שכונתי בכל שכבה", "תערוכת תוצרים קהילתית"]
+      },
+      {
+        eyebrow: "מדידה",
+        title: "מדדי הצלחה מדורגים",
+        text: "כדי לוודא שהמודל עובד, נמדוד הצלחה לפי פרמטרים ברי השגה.",
+        visual: "cards",
+        cards: [
+          ["שביעות רצון", "עלייה במדדי האקלים והמוגנות בסקרי הורים ותלמידים."],
+          ["מעורבות", "גידול במספר ההורים המתנדבים בפעילויות העשרה מוגדרות."],
+          ["שימור", "יציבות ברישום והפחתת עזיבת תלמידים לבתי ספר אחרים."],
+          ["ביצוע", "לפחות יוזמה פדגוגית אחת מחוץ לכיתה בכל שכבת גיל."]
+        ]
+      },
+      {
+        eyebrow: "סיכום",
+        title: "משתמשים במה שכבר קיים",
+        text: "המודל אינו מבקש להמציא מחדש את בית הספר, אלא להשתמש במשאבים הקיימים: המבנה, קהילת ההורים והסביבה השכונתית.",
+        emphasis: "כך מעניקים ערך מוסף חינוכי, תוך שמירה על יציבות וביטחון לכל הצדדים.",
+        visual: "quote",
+        quote: "ערך חדש מתוך משאבים קיימים"
+      },
+      {
+        eyebrow: "18",
+        title: "החזון",
+        text: "להפוך את גאולים לבית הספר הממלכתי השכונתי המוביל בירושלים.",
+        emphasis: "בית ספר שמחבר בין מצוינות לימודית, קהילה, מקום, סקרנות והשפעה.",
+        largeEmphasis: true,
+        visual: "quote",
+        quote: "מצוינות, קהילה, מקום והשפעה"
+      },
+      {
+        eyebrow: "כרטיסיות מיתוג",
+        title: "השפה החדשה במבט אחד",
+        text: "לפני הסיום, הנה כל רכיבי המותג ככרטיסיות שימושיות: לוגו, צבעים, אייקונים, תנועה, דף לוגו והדמיית מרחב.",
+        visual: "brandCards"
+      },
+      {
+        eyebrow: "יישומים",
+        title: "איך השפה נראית במרחב?",
+        text: "השפה כבר יכולה להפוך לכלים ממשיים: חולצות, דף לוגו, כרטיסיות חדרים, מדבקות, תוצרי תלמידים ושילוט כניסה.",
+        emphasis: "כך הרעיון החינוכי הופך לנוכחות יומיומית בבית הספר.",
+        visual: "brandApplications"
+      },
+      {
+        type: "closing",
+        eyebrow: "סיום",
+        title: "קמפוס גאולים המסילה",
+        tagline: "למידה שיוצאת מגבולות הכיתה",
+        text: "הדרך מתחילה כאן.",
+        dark: true
+      }
+    ];
+
+    const slidesRoot = document.querySelector("#slides");
+    const dotTemplate = document.querySelector("#dot-grid-template");
+    let current = 0;
+
+    function dotGrid() {
+      return dotTemplate.innerHTML;
+    }
+
+    function routeArt() {
+      return `
+        <div class="line-art" aria-hidden="true">
+          <svg viewBox="0 0 640 140" preserveAspectRatio="none">
+            <path class="route-base" d="M0 88 C90 36 158 116 246 72 C342 24 410 112 640 44"></path>
+            <path class="route-line" d="M0 88 C90 36 158 116 246 72 C342 24 410 112 640 44"></path>
+            <circle cx="126" cy="64" r="14" fill="#8a9746"></circle>
+            <circle cx="322" cy="63" r="12" fill="#1f355e"></circle>
+            <circle cx="505" cy="65" r="11" fill="#d8c7a0"></circle>
+          </svg>
+        </div>`;
+    }
+
+    function coverRoute() {
+      return `
+        <div class="cover-route" aria-hidden="true">
+          <svg viewBox="0 0 1440 150" preserveAspectRatio="none">
+            <path class="route-base" d="M-30 84 C140 44 274 118 428 78 C604 32 742 128 898 82 C1062 34 1182 118 1470 44" fill="none" stroke-linecap="round"></path>
+            <path class="route-line" d="M-30 84 C140 44 274 118 428 78 C604 32 742 128 898 82 C1062 34 1182 118 1470 44" fill="none" stroke-linecap="round"></path>
+            <circle cx="390" cy="84" r="12" fill="#8a9746"></circle>
+            <circle cx="820" cy="91" r="10" fill="#1f355e"></circle>
+            <circle cx="1138" cy="89" r="9" fill="#d8c7a0"></circle>
+          </svg>
+        </div>`;
+    }
+
+    function header(index, slide) {
+      const logo = slide.dark ? assets.darkLogo : assets.logo;
+      const logoClass = slide.dark ? "logo dark" : "logo";
+      return `
+        <header class="slide-header">
+          <img class="${logoClass}" src="${logo}" alt="קמפוס גאולים המסילה">
+          <span class="slide-number">${String(index + 1).padStart(2, "0")}</span>
+        </header>`;
+    }
+
+    function copyBlock(slide) {
+      const showEyebrow = slide.eyebrow && !/^\d+$/.test(slide.eyebrow);
+      return `
+        <section class="copy ${slide.title?.length > 24 ? "wide-title" : ""} ${slide.largeEmphasis ? "large-emphasis" : ""}">
+          ${showEyebrow ? `<p class="eyebrow">${slide.eyebrow}</p>` : ""}
+          <h${slide.type === "cover" || slide.type === "closing" ? "1" : "2"}>${slide.title}</h${slide.type === "cover" || slide.type === "closing" ? "1" : "2"}>
+          ${slide.tagline ? `<p class="tagline">${slide.tagline}</p>` : ""}
+          ${slide.text ? `<p class="lead">${slide.text}</p>` : ""}
+          ${slide.emphasis ? `<p class="lead"><span class="emphasis">${slide.emphasis}</span></p>` : ""}
+          ${slide.pills ? `<div class="pill-row">${slide.pills.map((pill) => `<span class="pill">${pill}</span>`).join("")}</div>` : ""}
+        </section>`;
+    }
+
+    function visual(slide) {
+      if (slide.type === "cover") {
+        return `<section class="visual cover-logo">${dotGrid()}${routeArt()}</section>`;
+      }
+
+      if (slide.type === "closing") {
+        return `<section class="visual cover-logo">${dotGrid()}${routeArt()}</section>`;
+      }
+
+      switch (slide.visual) {
+        case "quote":
+          return `<section class="visual statement-visual">${dotGrid()}<div class="quote-card"><strong>${slide.quote}</strong></div>${routeArt()}</section>`;
+        case "list":
+          return `<section class="visual proof-group"><div class="list-panel">${slide.items.map((item) => `<div class="list-item">${item}</div>`).join("")}</div></section>`;
+        case "neighborhood":
+          return `<section class="visual neighborhood-visual"><img src="${assets.skyline}" alt="איור שכונת בקעה והמסילה"></section>`;
+        case "flow":
+          return `<section class="visual"><div class="flow">${slide.steps.map(([label, icon]) => `<div class="flow-step"><img src="${icon}" alt=""><strong>${label}</strong></div>`).join("")}</div>${routeArt()}</section>`;
+        case "route":
+          return `<section class="visual">${dotGrid()}<div class="quote-card"><strong>דרך שמחברת בין הכיתה לקהילה</strong></div>${routeArt()}</section>`;
+        case "nameMeaning":
+          return `<section class="visual name-meaning">
+            <article class="name-part">
+              <strong>גאולים</strong>
+              <p>הבית הספרי הקיים: קהילה, צוות, ילדים, שייכות ומקום בטוח.</p>
+            </article>
+            <div class="name-connector" aria-hidden="true">
+              <svg viewBox="0 0 120 72">
+                <path d="M5 38 C28 14 48 58 68 36 C84 18 98 31 115 18" fill="none" stroke="rgba(211,197,181,.55)" stroke-width="8" stroke-linecap="round"></path>
+                <path d="M5 38 C28 14 48 58 68 36 C84 18 98 31 115 18" fill="none" stroke="#111d33" stroke-width="3.2" stroke-linecap="round"></path>
+                <circle cx="42" cy="42" r="7" fill="#8a9746"></circle>
+                <circle cx="76" cy="31" r="6" fill="#1f355e"></circle>
+              </svg>
+            </div>
+            <article class="name-part">
+              <strong>המסילה</strong>
+              <p>מסילת הרכבת המחברת בין שכונות ירושלים, והדרך החינוכית שיוצאת מהכיתה אל השכונה.</p>
+            </article>
+          </section>`;
+        case "bigLogo":
+          return `<section class="visual big-logo-visual"><img src="${assets.logo}" alt="קמפוס גאולים המסילה"></section>`;
+        case "anchors":
+          return `<section class="visual anchor-grid">${slide.anchors.map(([title, text, icon]) => `<article class="anchor-card"><img src="${icon}" alt=""><strong>${title}</strong><p>${text}</p></article>`).join("")}</section>`;
+        case "orbit":
+          return `<section class="visual card-grid">${slide.chips.map((chip) => `<article class="mini-card"><strong>${chip}</strong><p>${chip.includes("הורים") ? "הורים הופכים לשותפים פעילים בתהליכי למידה, תוצרים וקהילה." : "מתחזק דרך למידה במרחב, חקר ועשייה."}</p></article>`).join("")}</section>`;
+        case "cards":
+          return `<section class="visual card-grid">${slide.cards.map(([title, text]) => `<article class="mini-card"><strong>${title}</strong><p>${text}</p></article>`).join("")}</section>`;
+        case "icons":
+          return `<section class="visual anchor-grid">
+            <article class="anchor-card"><img src="${assets.icons.place}" alt=""><strong>סמלים</strong><p>שפה שילדים וצוות מזהים.</p></article>
+            <article class="anchor-card"><img src="${assets.icons.neighborhood}" alt=""><strong>שלטים</strong><p>המרחב מדבר את החזון.</p></article>
+            <article class="anchor-card"><img src="${assets.icons.community}" alt=""><strong>מסמכים</strong><p>אחידות מול הורים וקהילה.</p></article>
+            <article class="anchor-card"><img src="${assets.icons.growth}" alt=""><strong>מרחבי למידה</strong><p>המותג הופך לחוויה.</p></article>
+          </section>`;
+        case "palette":
+          return `<section class="visual palette-grid">
+            ${(slide.swatches || [
+              ["כחול עמוק", "ידע, עומק וחשיבה", "#1f355e", false],
+              ["ירוק זית", "צמיחה, קהילה וקיימות", "#8a9746", false],
+              ["אבן ירושלמית", "מקום, שורשים ובקעה", "#d8c7a0", true],
+              ["שמנת", "פתיחות, בהירות ומרחב", "#f8f6f1", true]
+            ]).map(([name, meaning, color, isLight]) => `<div class="swatch-card ${isLight ? "light" : ""}" style="background:${color}"><strong>${name}</strong><span>${meaning}</span></div>`).join("")}
+          </section>`;
+        case "brandEvolution":
+          return `<section class="visual evolution-logos">
+            <article class="logo-compare-card">
+              <h3>השפה הקיימת</h3>
+              <img src="assets/old-geulim-logo.png" alt="הלוגו הישן של תל״י גאולים">
+              <p>בית, ילדים, חום וקהילה. שפה נגישה ומשפחתית.</p>
+            </article>
+            <article class="logo-compare-card">
+              <h3>השפה החדשה</h3>
+              <img src="${assets.logo}" alt="הלוגו החדש של קמפוס גאולים המסילה">
+              <p>מקום, מסילה, חקר וצמיחה. זהות בוגרת שמספרת סיפור פדגוגי.</p>
+            </article>
+          </section>`;
+        case "brandCards":
+          return `<section class="visual brand-cards-grid">
+            <article class="brand-card"><strong>לוגו</strong><img src="${assets.logo}" alt="לוגו קמפוס גאולים המסילה"></article>
+            <article class="brand-card dark"><strong>לוגו על רקע כהה</strong><img src="${assets.darkLogo}" alt="לוגו לרקע כהה"></article>
+            <article class="brand-card"><strong>פלטת צבעים</strong><div class="swatches"><span style="background:#1A253C"></span><span style="background:#607A44"></span><span style="background:#D3C5B5"></span><span style="background:#FAF8F5"></span></div></article>
+            <article class="brand-card"><strong>אייקונים</strong><img src="${assets.icons.place}" alt="אייקון למידה מבוססת מקום"></article>
+            <article class="brand-card"><strong>קו תנועה</strong><img src="assets/brand-elements/motifs/route-line.svg" alt="קו תנועה"></article>
+            <article class="brand-card"><strong>יישום במרחב</strong><img src="${assets.mockup}" alt="הדמיית שילוט כניסה"></article>
+          </section>`;
+        case "brandApplications":
+          return `<section class="visual application-grid">
+            <img class="application-board" src="${assets.brandApplications}" alt="לוח יישומי מיתוג מלא: חולצות, דף לוגו, כרטיסיות, מדבקות ושילוט">
+          </section>`;
+        case "mockup":
+          return `<section class="visual"><article class="mockup-card"><img src="${assets.mockup}" alt="הדמיית שילוט כניסה בבית הספר"><div class="mockup-label"><strong>כך זה יכול להיראות בשער</strong><span>דוגמה לסוף המצגת: המיתוג יוצא אל המרחב הבית ספרי.</span></div></article></section>`;
+        case "roadmap":
+          return `<section class="visual pilot-roadmap">${slide.steps.map((step, i) => `<article class="step-card"><div class="step-number">${i + 1}</div><strong>${step}</strong></article>`).join("")}</section>`;
+        default:
+          return `<section class="visual empty-visual" aria-hidden="true"></section>`;
+      }
+    }
+
+    function renderSlide(slide, index) {
+      const section = document.createElement("section");
+      section.className = `slide ${slide.type || ""} ${slide.visual ? `visual-${slide.visual}` : ""} ${slide.singleLineTitle ? "single-line-title" : ""} ${slide.phase === "rationale" ? "pre-brand" : ""} ${slide.hideLogo ? "hide-logo" : ""} ${slide.dark ? "dark-slide" : ""}`;
+      section.setAttribute("aria-label", slide.eyebrow || `שקף ${index + 1}`);
+      section.innerHTML = `
+        ${header(index, slide)}
+        <div class="slide-body">
+          ${copyBlock(slide)}
+          ${visual(slide)}
+        </div>
+        ${slide.type === "cover" ? coverRoute() : ""}
+        ${slide.type === "closing" || slide.type === "cover" || slide.phase === "rationale" ? "" : `<div class="skyline" aria-hidden="true"><img src="${assets.skyline}" alt=""></div>`}
+      `;
+      slidesRoot.appendChild(section);
+    }
+
+    slides.forEach(renderSlide);
+    const slideNodes = [...document.querySelectorAll(".slide")];
+
+    function goTo(index) {
+      current = Math.max(0, Math.min(slideNodes.length - 1, index));
+      slideNodes.forEach((node, i) => node.classList.toggle("is-active", i === current));
+      document.body.classList.toggle("on-dark", slides[current].dark);
+    }
+
+    document.querySelector("[data-next]").addEventListener("click", () => goTo(current + 1));
+    document.querySelector("[data-prev]").addEventListener("click", () => goTo(current - 1));
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft" || event.key === "PageDown" || event.key === " ") {
+        event.preventDefault();
+        goTo(current + 1);
+      }
+      if (event.key === "ArrowRight" || event.key === "PageUp") {
+        event.preventDefault();
+        goTo(current - 1);
+      }
+      if (event.key === "Home") goTo(0);
+      if (event.key === "End") goTo(slideNodes.length - 1);
     });
 
-    navButtons.forEach((navButton) => {
-      navButton.addEventListener("click", () => {
-        const target = document.querySelector(navButton.dataset.target);
-        target?.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-    });
+    let touchStartX = null;
+    document.addEventListener("touchstart", (event) => {
+      touchStartX = event.changedTouches[0].clientX;
+    }, { passive: true });
+    document.addEventListener("touchend", (event) => {
+      if (touchStartX === null) return;
+      const delta = event.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(delta) > 56) goTo(current + (delta < 0 ? 1 : -1));
+      touchStartX = null;
+    }, { passive: true });
+
+    goTo(0);
   </script>
 </body>
 </html>

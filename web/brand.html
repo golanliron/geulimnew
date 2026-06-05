@@ -266,6 +266,23 @@
       object-fit: contain;
     }
 
+    .logo-page-preview {
+      display: grid;
+      min-height: 620px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 16px 38px rgba(17, 29, 51, 0.06);
+      overflow: hidden;
+    }
+
+    .logo-page-preview iframe {
+      width: 100%;
+      height: 620px;
+      border: 0;
+      background: #fff;
+    }
+
     .color-card {
       min-height: 240px;
       display: grid;
@@ -540,6 +557,50 @@
       height: auto;
     }
 
+    .future-showcase {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+      align-items: stretch;
+    }
+
+    .future-showcase img {
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .future-copy {
+      display: grid;
+      align-content: center;
+      gap: 16px;
+      padding: 30px;
+      background: var(--cream);
+    }
+
+    .future-copy h3 {
+      margin: 0;
+      color: var(--blue-deep);
+      font-size: clamp(30px, 3.2vw, 46px);
+      line-height: 1.05;
+    }
+
+    .future-copy p {
+      margin: 0;
+    }
+
+    .future-copy code {
+      display: block;
+      direction: ltr;
+      text-align: left;
+      color: var(--blue-deep);
+      font-family: "Segoe UI Mono", Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
     .footer {
       padding: 40px clamp(18px, 5vw, 64px);
       color: #fff;
@@ -558,6 +619,7 @@
       .hero,
       .section-title,
       .grid.cols-2,
+      .future-showcase,
       .grid.cols-3,
       .grid.cols-4 {
         grid-template-columns: 1fr;
@@ -605,11 +667,12 @@
         <a href="#colors">צבעים</a>
         <a href="#type">טיפוגרפיה</a>
         <a href="#logos">לוגו</a>
-        <a href="logo-page.html">דף לוגו</a>
+        <a href="#logo-page">דף לוגו</a>
         <a href="#icons">אייקונים</a>
         <a href="#elements">נכסים שקופים</a>
         <a href="#motifs">מוטיבים</a>
         <a href="#slides">שקפים</a>
+        <a href="#future-use">יישומים עתידיים</a>
       </nav>
     </header>
 
@@ -692,6 +755,16 @@
           <div class="logo-demo dark"><img src="assets/gaolim-logo-dark-bg.png" alt="לוגו מותאם לרקע כחול כהה"></div>
           <div class="panel-body"><h3>על רקע כהה</h3><p>להשתמש רק כשיש מספיק ניגודיות ושטח נשימה.</p></div>
         </article>
+      </div>
+    </section>
+
+    <section class="section" id="logo-page">
+      <div class="section-title">
+        <h2>דף לוגו</h2>
+        <p>תבנית רשמית לפתיחים, מסמכים ועמודי מעבר. היא מוצגת כאן כחלק מספר המותג, לא כאלמנט שמעמיס על המצגת עצמה.</p>
+      </div>
+      <div class="logo-page-preview">
+        <iframe src="logo-page.html" title="דף לוגו קמפוס גאולים המסילה"></iframe>
       </div>
     </section>
 
@@ -810,6 +883,21 @@
           <img src="assets/gaolim-skyline-official-transparent.png" alt="">
         </div>
       </div>
+    </section>
+
+    <section class="section" id="future-use">
+      <div class="section-title">
+        <h2>יישומים עתידיים</h2>
+        <p>נכסים שנשמרים לטובת המצגת המלאה ולשימוש בהמשך, בעיקר כדי להראות למנהלת איך השפה יכולה להיראות במרחב האמיתי של בית הספר.</p>
+      </div>
+      <article class="panel future-showcase">
+        <img src="assets/future-use/school-entrance-signage-mockup.png" alt="הדמיית שילוט כניסה בבית הספר">
+        <div class="future-copy">
+          <h3>שילוט כניסה לבית הספר</h3>
+          <p>לשימוש לקראת סוף המצגת: רגע המחשה שמראה איך המותג יוצא מהשקפים ונכנס לשער, לגדר ולמפגש היומיומי עם ההורים והילדים.</p>
+          <code>assets/future-use/school-entrance-signage-mockup.png</code>
+        </div>
+      </article>
     </section>
 
     <section class="section" id="boards">
